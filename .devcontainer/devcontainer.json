@@ -1,0 +1,127 @@
+{
+  "name": "DevContainer for Java",
+
+  "build": {
+    "dockerfile": "./Dockerfile",
+    "context": ".",
+    "args": {
+      "VARIANT": "7.0"
+    }    
+  },
+
+  "features": {
+    "ghcr.io/devcontainers/features/java:latest": {
+      "version": "latest",
+      "jdkDistro": "ms",
+      "installMaven": true,
+      "mavenVersion": "latest",
+      "installGradle": true,
+      "gradleVersion": "latest",
+      "installAnt": true,
+      "antVersion": "latest"
+    },
+
+    "ghcr.io/devcontainers/features/azure-cli:latest": {
+      "version": "latest",
+      "extensions": "account,alias,deploy-to-azure,k8s-configuration,k8s-extension,k8sconfiguration,spring,spring-cloud,staticwebapp,subscription"
+    },
+
+    "ghcr.io/devcontainers/features/github-cli:latest": {
+      "version": "latest"
+    },
+
+    "ghcr.io/devcontainers/features/node:latest": {
+      "version": "lts",
+      "nodeGypDependencies": true,
+      "nvmInstallPath": "/usr/local/share/nvm"
+    },
+
+    "ghcr.io/devcontainers/features/common-utils:latest": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true,
+      "username": "vscode",
+      "uid": "1000",
+      "gid": "1000"
+    }
+  },
+
+  "overrideFeatureInstallOrder": [
+    "ghcr.io/devcontainers/features/common-utils"
+  ],
+
+  "forwardPorts": [
+    7071,
+    10000, 10001, 10002,
+    5000, 5001,
+    4280
+  ],
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "GitHub.copilot",
+        "GitHub.copilot-labs",
+        "GitHub.vscode-github-actions",
+        "GitHub.vscode-pull-request-github",
+
+        "ms-azuretools.vscode-bicep",
+        "ms-azuretools.vscode-azureterraform",
+
+        // "ms-dotnettools.csharp",
+        // "kreativ-software.csharpextensions",
+
+        "ms-vscode.PowerShell",
+        "ms-vscode.vscode-node-azure-pack",
+
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-gradle",
+        "vscjava.vscode-azurespringcloud",
+        "vmware.vscode-boot-dev-pack",
+        "redhat.vscode-xml",
+        "redhat.vscode-yaml",
+
+        "Azurite.azurite",
+        // "eamodio.gitlens",
+        "EditorConfig.EditorConfig",
+        "streetsidesoftware.code-spell-checker",
+
+        "microsoft-IsvExpTools.powerplatform-vscode",
+
+        "bierner.github-markdown-preview",
+        "DavidAnson.vscode-markdownlint",
+        "docsmsft.docs-linting",
+        "johnpapa.read-time",
+        "yzhang.markdown-all-in-one"
+      ]
+    },
+
+    "settings": {
+      "terminal.integrated.defaultProfile.linux": "zsh",
+      "terminal.integrated.profiles.linux": {
+        "zsh": {
+          "path": "/usr/bin/zsh"
+        }
+      },
+
+      "terminal.integrated.fontFamily": "CaskaydiaCove Nerd Font",
+
+      "editor.minimap.enabled": false,
+
+      // "gitlens.showWelcomeOnInstall": false,
+      // "gitlens.showWhatsNewAfterUpgrades": false,
+
+      "explorer.sortOrder": "type",
+      "explorer.fileNesting.enabled": true,
+      "explorer.fileNesting.patterns": {
+        "*.bicep": "${capture}.json, ${capture}.parameters.json",
+        "*.ts": "${capture}.js, ${capture}.js.map",
+        "*.js": "${capture}.js.map"
+      }
+    }
+  },
+
+  "postCreateCommand": "/usr/bin/zsh ./.devcontainer/post-create.sh > ~/post-create.log",
+
+  "remoteUser": "vscode"
+}
