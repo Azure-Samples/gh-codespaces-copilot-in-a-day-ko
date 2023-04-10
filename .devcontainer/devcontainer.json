@@ -68,8 +68,8 @@
         "ms-azuretools.vscode-bicep",
         "ms-azuretools.vscode-azureterraform",
 
-        "ms-dotnettools.csharp",
-        "kreativ-software.csharpextensions",
+        // "ms-dotnettools.csharp",
+        // "kreativ-software.csharpextensions",
 
         "ms-vscode.PowerShell",
         "ms-vscode.vscode-node-azure-pack",
@@ -82,7 +82,7 @@
         "redhat.vscode-yaml",
 
         "Azurite.azurite",
-        "eamodio.gitlens",
+        // "eamodio.gitlens",
         "EditorConfig.EditorConfig",
         "streetsidesoftware.code-spell-checker",
 
@@ -108,8 +108,8 @@
 
       "editor.minimap.enabled": false,
 
-      "gitlens.showWelcomeOnInstall": false,
-      "gitlens.showWhatsNewAfterUpgrades": false,
+      // "gitlens.showWelcomeOnInstall": false,
+      // "gitlens.showWhatsNewAfterUpgrades": false,
 
       "explorer.sortOrder": "type",
       "explorer.fileNesting.enabled": true,
