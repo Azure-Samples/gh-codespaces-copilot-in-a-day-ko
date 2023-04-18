@@ -1,5 +1,8 @@
 package com.example.springopenai;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,5 +13,10 @@ public class HelloController {
 	public String index() {
 		return "Greetings from Spring Boot!";
 	}
+
+    @GetMapping("/hello")
+	public List<String> Hello(){
+        return Arrays.asList("Github Codespace 테스트", "Github Copilot 테스트");
+    }
 
 }
