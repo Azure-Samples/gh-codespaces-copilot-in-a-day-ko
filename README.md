@@ -27,7 +27,27 @@ TBD
 
 ## 시작하기
 
-TBD
+### 스프링 앱 로컬 테스트
+
+1. 프론트엔드(리액트) 빌드
+
+   ```bash
+   cd web
+   npm start
+   ```
+
+2. 백엔드(Java) 빌드
+    - Terminal
+
+   ```bash
+   cd api
+   mvn spring-boot:run
+   ```
+
+    - VSCode에서 Run Java를 이용
+    ![java_run](/images/java_run.png)
+
+3. 브라우저에서 http://localhost:3000/ 접속
 
 
 ### 사전 준비사항
