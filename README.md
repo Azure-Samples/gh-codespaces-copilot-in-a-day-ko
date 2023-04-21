@@ -27,7 +27,7 @@ TBD
 
 ## 시작하기
 
-### 스프링 앱 로컬 테스트
+### 스프링 앱 로컬 실행
 
 1. 프론트엔드(리액트) 빌드
 
@@ -38,17 +38,25 @@ TBD
    ```
 
 2. 백엔드(Java) 빌드
-    - Terminal
+    - Terminal(mvn)
 
    ```bash
    cd api
    mvn spring-boot:run
    ```
 
+   - Terminal(./mvnw)
+    ```bash
+    cd api
+    ./mvnw spring-boot:run
+    ```
+
     - VSCode에서 Run Java를 이용
     ![java_run](/images/java_run.png)
 
-3. 브라우저에서 http://localhost:3000/ 접속
+3. 웹 접속
+
+    ![react-open](/images/react-open.png)
 
 
 ### 사전 준비사항
