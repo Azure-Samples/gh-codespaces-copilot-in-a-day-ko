@@ -37,6 +37,9 @@ npm install -g @azure/static-web-apps-cli
 ## AZURE DEV CLI ##
 curl -fsSL https://aka.ms/install-azd.sh | bash
 
+## SpringBoot CLI ##
+sdk install springboot
+
 ## OH-MY-ZSH PLUGINS & THEMES (POWERLEVEL10K) ##
 git clone https://github.com/zsh-users/zsh-completions.git $HOME/.oh-my-zsh/custom/plugins/zsh-completions
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
