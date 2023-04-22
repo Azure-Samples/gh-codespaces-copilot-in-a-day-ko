@@ -1,6 +1,6 @@
 # GitHub Codespaces와 Copilot으로 앱 만들어 보기
 
-Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 GitHub Codespaces 안에서 GitHub Copilot을 이용해서 빌드하고 애저 및 파워 앱에 배포하는 핸즈온랩입니다.
+Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview) 안에서 [GitHub Copilot](https://docs.github.com/ko/copilot/quickstart)을 이용해서 빌드하고 애저 및 파워 앱에 배포하는 핸즈온랩입니다.
 
 
 ## 목표
@@ -8,60 +8,78 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 GitHub
 이 핸즈온랩을 끝마치면 여러분은 아래와 같은 내용을 학습할 수 있습니다.
 
 - 인프라스트럭처
-  - GitHub Codespaces
-  - GitHub Copilot
-  - 애저 Bicep
-  - 애저 Terraform
+  - [GitHub Codespaces](https://docs.github.com/ko/codespaces/overview)
+  - [GitHub Copilot](https://docs.github.com/ko/copilot/quickstart)
+  - [애저 Bicep](https://learn.microsoft.com/ko-kr/azure/azure-resource-manager/bicep/overview?WT.mc_id=dotnet-93951-juyoo)
+  - [애저 Terraform](https://learn.microsoft.com/ko-kr/azure/developer/terraform/overview?WT.mc_id=dotnet-93951-juyoo)
 - 프론트엔드 애플리케이션
-  - 애저 정적 웹 앱 &ndash; React 기반
-  - 파워 앱 &ndash; 파워 플랫폼 기반
+  - [애저 정적 웹 앱](https://learn.microsoft.com/ko-kr/azure/static-web-apps/overview?WT.mc_id=dotnet-93951-juyoo) &ndash; React 기반
+  - [파워 앱](https://learn.microsoft.com/ko-kr/power-apps/powerapps-overview?WT.mc_id=dotnet-93951-juyoo) &ndash; 파워 플랫폼 기반
 - 백엔드 애플리케이션
-  - 애저 앱서비스 &ndash; Spring 기반
-  - 애저 Kubernetes 서비스 (AKS) &ndash; Spring 기반
+  - [애저 앱서비스](https://learn.microsoft.com/ko-kr/azure/app-service/getting-started?pivots=stack-java&WT.mc_id=dotnet-93951-juyoo) &ndash; Spring 기반
+  - [애저 Kubernetes 서비스 (AKS)](https://learn.microsoft.com/ko-kr/azure/aks/intro-kubernetes?WT.mc_id=dotnet-93951-juyoo) &ndash; Spring 기반
+  - [애저 PostgreSQL 데이터베이스](https://learn.microsoft.com/ko-kr/azure/postgresql/flexible-server/overview?WT.mc_id=dotnet-93951-juyoo)
 
 
 ## 기본 아키텍처
 
-TBD
+### 애저 정적 웹 앱 (프론트엔드) + 애저 앱 서비스 (백엔드)
+
+![애저 정적 웹 앱 (프론트엔드) + 애저 앱 서비스 (백엔드)](./images/architecture-01.png)
+
+
+### 애저 정적 웹 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 PostgreSQL (데이터베이스)
+
+![애저 정적 웹 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 PostgreSQL (데이터베이스)](./images/architecture-02.png)
+
+
+### 파워 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 PostgreSQL (데이터베이스)
+
+![파워 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 PostgreSQL (데이터베이스)](./images/architecture-03.png)
 
 
 ## 시작하기
 
 ### 스프링 앱 로컬 실행
 
-1. 프론트엔드(리액트) 빌드
+1. 프론트엔드 (React 앱) 빌드
 
-   ```bash
-   cd web
-   npm install
-   npm start
-   ```
-
-2. 백엔드(Java) 빌드
-    - Terminal(mvn)
-
-   ```bash
-   cd api
-   mvn spring-boot:run
-   ```
-
-   - Terminal(./mvnw)
     ```bash
-    cd api
-    ./mvnw spring-boot:run
+    cd web
+    npm install
+    npm start
     ```
 
-    - VSCode에서 Run Java를 이용
-    ![java_run](/images/java_run.png)
+2. 백엔드 (Spring Boot 앱) 빌드
 
-3. 웹 접속
+   - `mvn` 사용시
 
-    ![react-open](/images/react-open.png)
+        ```bash
+        cd api
+        mvn spring-boot:run
+        ```
+
+   - `mvnw` 사용시
+
+        ```bash
+        cd api
+        ./mvnw spring-boot:run
+        ```
+
+   - 디버거 사용시
+
+   ![디버거 사용](/images/java_run.png)
+
+3. 웹 앱 접속
+
+   ![웹 앱 접속](/images/react-open.png)
 
 
 ### 사전 준비사항
 
-TBD
+- [GitHub 계정](https://github.com/signup)
+- [GitHub Copilot 구독 (유료; 최초 구독시 30일 무료)](https://github.com/github-copilot/signup)
+- [애저 구독 (무료)](https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-93951-juyoo)
 
 
 ### 설치 및 배포
