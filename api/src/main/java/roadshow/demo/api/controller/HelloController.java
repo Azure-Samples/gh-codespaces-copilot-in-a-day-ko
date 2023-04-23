@@ -19,10 +19,4 @@ public class HelloController {
         return Arrays.asList("Github Codespace 테스트", "Github Copilot 테스트");
     }
 
-    // @GetMapping("/chat")
-    // public String chat(){
-    //     //return String from ApiApplication makeApiCall function
-        
-    // }
-
 }
