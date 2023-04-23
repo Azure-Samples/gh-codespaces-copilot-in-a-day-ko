@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ApiApplication",
+            "request": "launch",
+            "mainClass": "roadshow.demo.api.ApiApplication",
+            "projectName": "api"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-SpringOpenaiApplication<spring-openai>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
