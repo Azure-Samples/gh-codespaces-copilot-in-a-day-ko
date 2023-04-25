@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Ignore properties ###
+!api/src/main/resources/application.properties

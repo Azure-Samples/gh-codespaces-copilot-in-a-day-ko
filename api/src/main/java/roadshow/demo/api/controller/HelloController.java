@@ -1,4 +1,4 @@
-package roadshow.demo.api;
+package roadshow.demo.api.controller;
 
 import java.util.Arrays;
 import java.util.List;
