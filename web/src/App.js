@@ -44,38 +44,39 @@ export default function App() {
 
     //Send the message to the backend api
     fetch("http://localhost:8080/api/messages", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text: msgText }),
-  })
-    .then((response) => response.json()) // parse JSON from request
-    .then((data) => {
-      const result = data.result;
-      if (result) { //If there is a result, append the bot message with the reply from openai
-        botResponse(result);
-      }
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: msgText }),
     })
-    .catch((error) => console.error(error));
+      .then((response) => response.json()) // parse JSON from request
+      .then((data) => {
+        const result = data.reply;
+        if (result) { //If there is a result, append the bot message with the reply from openai
+          // botResponse(result);
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            appendMessage(BOT_NAME, BOT_IMG, "left", result),
+          ]);
+        }
+      })
+      .catch((error) => console.error(error));
     
   }
 
-  function botResponse(data) {
+  // function botResponse(data) {
 
-    //Uncomment these two lines to use sample bot messages. Comment the const msgText = data; line
-    //const r = random(0, BOT_MSGS.length - 1);
-    //const msgText = BOT_MSGS[r];
+  //   //Uncomment these two lines to use sample bot messages. Comment the const msgText = data; line
+  //   //const r = random(0, BOT_MSGS.length - 1);
+  //   //const msgText = BOT_MSGS[r];
 
-    const msgText = data;
-    const delay = msgText.split(" ").length * 100;
+  //   const msgText = data;
+  //   const delay = msgText.split(" ").length * 100;
   
-    setTimeout(() => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        appendMessage(BOT_NAME, BOT_IMG, "left", msgText),
-      ]);
-    }, delay);
+  //   setTimeout(() => {
+      
+  //   }, delay);
   
-  }
+  // }
 
   return (
     <>

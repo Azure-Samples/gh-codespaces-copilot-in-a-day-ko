@@ -22,7 +22,7 @@ body {
   /* align-items: center; */
   height: 100vh;
   background-image: var(--body-bg);
-  font-family: Helvetica, sans-serif;
+  /*font-family: Helvetica, sans-serif;*/
 }
 
 .msger {
