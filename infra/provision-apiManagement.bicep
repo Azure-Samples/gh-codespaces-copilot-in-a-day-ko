@@ -43,3 +43,6 @@ module apim './apiManagement.bicep' = {
     apiManagementPolicyValue: apiManagementPolicyValue
   }
 }
+
+output id string = apim.outputs.id
+output name string = apim.outputs.name

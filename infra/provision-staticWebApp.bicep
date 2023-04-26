@@ -28,3 +28,7 @@ module sttapp './staticWebApp.bicep' = {
     appInsightsConnectionString: appins.outputs.connectionString
   }
 }
+
+output id string = sttapp.outputs.id
+output name string = sttapp.outputs.name
+output hostname string = sttapp.outputs.hostname
