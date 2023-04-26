@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-// import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -23,7 +22,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
@@ -41,17 +40,16 @@ public class MessageController {
         System.out.println("aoaiApiToken: " + aoaiApiToken);
 
         String inputMsg = requestBody.get("text");
-        String preMsg = "{\"role\": \"system\", \"content\": \"You are helpful Azure expert assistant.\"},";
+        String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
         
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         //make header with key "api-key"
         headers.set("api-key", aoaiApiToken);
         
-        String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 100}";
+        String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 300}";
         HttpEntity<String> entity = new HttpEntity<String>(body, headers);
         
-        //UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(aoaiUrl);
         
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response;
@@ -68,7 +66,7 @@ public class MessageController {
 
         } catch(Exception e) {
             System.out.println("Exception: " + e);
-            content = "Sorry, I am not able to answer your question. Please try again.";
+            content = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";
         }
 
         //jsonify content with key "reply"
@@ -80,32 +78,3 @@ public class MessageController {
         return json;
     }
 }
-
-//Make a external API call with WebClient. 
-//1. Get form text data from the client side(React) like public class MessageController{}. It is a POST method.
-//2. The external API call method should be POST. The body of the POST should look like this: {"messages": [{"role": "", "context": ""}]}. And the backend server needs to send the String data received from client in #1 as "context" to the external API.
-//3. The external API call should also have a header like this: {"Authorization": "Bearer " + token}. The token is a String data. 
-//4. The external API call should return a JSON object like this: 
-// {
-//     "id": "chatcmpl-795vv3rwLXKcO3DRNESpsVrVBrdlp",
-//     "object": "chat.completion",
-//     "created": 1682402115,
-//     "model": "gpt-4-32k",
-//     "choices": [
-//         {
-//             "index": 0,
-//             "finish_reason": "stop",
-//             "message": {
-//                 "role": "assistant",
-//                 "content": "Yes, many other Azure Cognitive Services support customer managed keys for increased data security and access control. For example, Azure Search, Azure Form Recognizer, and Azure Text Analytics support customer managed keys to encrypt and protect your data. The availability of this feature may vary among different Cognitive Services, so it's always a good idea to review the specific service documentation to confirm if customer managed keys are supported by the service you are interested in using."
-//             }
-//         }
-//     ],
-//     "usage": {
-//         "completion_tokens": 88,
-//         "prompt_tokens": 54,
-//         "total_tokens": 142
-//     }
-// }. 
-//The backend server needs to return the String data("choices"["message"["content"]]) received from the external API to the client side(React).
-
