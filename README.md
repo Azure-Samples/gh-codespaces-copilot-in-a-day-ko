@@ -93,21 +93,20 @@ TBD
 2. 아래 명령어를 차례대로 실행시켜 애저에 리소스를 프로비저닝합니다.
 
     ```bash
-    azd login
+    azd auth login --use-device-code=false
     azd init
     azd pipeline config
     azd up
     ```
 
-   > GitHub Codespaces를 사용할 경우에는 `azd login` 대신 `azd login --use-device-code=false` 명령어를 사용해야 합니다.
+   > GitHub 코드스페이스 안에서 `azd auth login --use-device-code=false` 명령어를 사용해서 로그인하는 경우, 최초 404 에러가 날 수 있습니다. 이 때 주소창의 `http://localhost:...` 부분을 복사해서 코드스페이스 안에서 새 터미널을 연 후 `curl` 명렁어를 통해 실행시키세요.
 
-3. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다. 아래 `{{GitHub ID}}`는 자신의 GitHub ID를 가리킵니다.
+3. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다.
 
     ```bash
     gh auth login
 
-    GITHUB_USERNAME="{{GitHub ID}}"
-    gh workflow run "Azure Dev" --repo $GITHUB_USERNAME/gh-codespaces-copilot-in-a-day-ko
+    gh workflow run "Azure Dev" --repo $GITHUB_REPOSITORY
     ```
 
    > 만약 `gh auth login` 명령어를 실행시키는 도중 에러가 발생하면 `GITHUB_TOKEN=` 명령어를 실행히켜 토큰을 초기화한 후 다시 실행시킵니다.
