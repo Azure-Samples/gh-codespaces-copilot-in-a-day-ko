@@ -66,5 +66,24 @@ resource appsvc 'Microsoft.Web/sites@2022-03-01' = {
   }
 }
 
+var policies = [
+  {
+    name: 'scm'
+    allow: false
+  }
+  {
+    name: 'ftp'
+    allow: false
+  }
+]
+
+resource appsvcPolicies 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-03-01' = [for policy in policies: {
+  name: '${appsvc.name}/${policy.name}'
+  location: apiApp.location
+  properties: {
+    allow: policy.allow
+  }
+}]
+
 output id string = appsvc.id
 output name string = appsvc.name
