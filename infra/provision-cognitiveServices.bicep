@@ -7,11 +7,11 @@ param aoaiModels array = [
     deploymentName: 'model-gpt35turbo'
     version: '0301'
   }
-  {
-    name: 'gpt-4-32k'
-    deploymentName: 'model-gpt432k'
-    version: '0314'
-  }
+//   {
+//     name: 'gpt-4-32k'
+//     deploymentName: 'model-gpt432k'
+//     version: '0314'
+//   }
 ]
   
 module aoai './openAI.bicep' = {
