@@ -8,6 +8,7 @@ param appInsightsInstrumentationKey string
 @secure()
 param appInsightsConnectionString string
 
+
 var staticApp = {
   name: 'sttapp-${name}'
   location: location
@@ -22,7 +23,7 @@ resource sttapp 'Microsoft.Web/staticSites@2022-03-01' = {
   name: staticApp.name
   location: location
   sku: {
-    name: 'Free'
+    name: 'Standard'
   }
   properties: {
     allowConfigFileUpdates: true
