@@ -3,12 +3,15 @@ package roadshow.demo.api.controller;
 import java.util.Collections;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Value;
+//Uncomment below import if you want to run in local.
+//import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
+//import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,22 +25,28 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-@CrossOrigin(origins = "http://localhost:3000")
+//Uncomment this & line 13 if you want to run this app with react frontend in local.
+// @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
 
-    //aoai-url from application.properties
-    @Value("${aoaiurl}")
-    private String aoaiUrl;
+    //uncomment this if you want to run this app in local.
+    //Get env var(aoaiurl, aoaikey) from application.properties
+    // @Value("${aoaiurl}")
+    // private String aoaiUrl;
 
-    @Value("${aoaikey}")
-    private String aoaiApiToken;
+    // @Value("${aoaikey}")
+    // private String aoaiApiToken;
+
+    //comment this two lines if you want to run this app in local.
+    private String aoaiUrl = System.getenv("AOAI__API_Endpoint") + "openai/deployments/model-gpt35turbo/chat/completions?api-version=2023-03-15-preview";
+    private String aoaiApiToken = System.getenv("AOAI__API_Key");
 
     @PostMapping
     public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
-        System.out.println("aoaiUrl: " + aoaiUrl);
-        System.out.println("aoaiApiToken: " + aoaiApiToken);
+        // System.out.println("aoaiUrl: " + aoaiUrl);
+        // System.out.println("aoaiApiToken: " + aoaiApiToken);
 
         String inputMsg = requestBody.get("text");
         String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
