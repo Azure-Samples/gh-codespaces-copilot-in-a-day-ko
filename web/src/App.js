@@ -13,11 +13,9 @@ import React, { useState } from 'react';
 const BOT_IMG = "https://www.svgrepo.com/show/331302/azure-v2.svg";
 const PERSON_IMG = "https://yt3.googleusercontent.com/ytc/AL5GRJXQLWIBG375TkT3VMb6V_PoQAwm3ob1uW3k5l8SbQ=s900-c-k-c0x00ffffff-no-rj";
 const BOT_NAME = "애저봇☁️";
-const PERSON_NAME = "애저 너구리🦝";
-
+const PERSON_NAME = "애저 너구리🦝"
 
 export default function App() {
-
   //First message from bot
   const [messages, setMessages] = useState([appendMessage(BOT_NAME, BOT_IMG, "left", "안녕하세요, 애저봇입니다. 만나서 반가워요! 오늘은 뭘 도와드릴까요?")]);
 
@@ -43,7 +41,9 @@ export default function App() {
     ]);
 
     //Send the message to the backend api
-    fetch("http://localhost:8080/api/messages", {
+    //Uncomment this & comment fetch("/api/messages") if you want to run in local.
+    //fetch("http://localhost:8080/api/messages", {
+    fetch("/api/messages", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: msgText }),
@@ -62,21 +62,6 @@ export default function App() {
       .catch((error) => console.error(error));
     
   }
-
-  // function botResponse(data) {
-
-  //   //Uncomment these two lines to use sample bot messages. Comment the const msgText = data; line
-  //   //const r = random(0, BOT_MSGS.length - 1);
-  //   //const msgText = BOT_MSGS[r];
-
-  //   const msgText = data;
-  //   const delay = msgText.split(" ").length * 100;
-  
-  //   setTimeout(() => {
-      
-  //   }, delay);
-  
-  // }
 
   return (
     <>
