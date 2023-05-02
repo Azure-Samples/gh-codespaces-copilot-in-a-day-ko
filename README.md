@@ -40,9 +40,60 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
 ## 시작하기
 
-### 스프링 앱 로컬 실행
+### 앱 로컬 실행
 
-1. 프론트엔드 (React 앱) 빌드
+1. `web/App.js` 의 로컬 실행 주석 해제, Azure 실행 주석 처리
+
+   ```javascript
+   //Send the message to the backend api
+   //Uncomment this & comment fetch("/api/messages") if you want to run in local.
+   fetch("http://localhost:8080/api/messages", {
+   //fetch("/api/messages", {
+   method: "POST",
+   headers: { "Content-Type": "application/json" },
+   body: JSON.stringify({ text: msgText }),
+   })
+   ```
+2. `api/src/main/java/roadshow/demo/api/controller/MessageController.java` 의 로컬 실행 주석 해제, Azure 실행 주석 처리
+
+   ```java
+   //Uncomment below import if you want to run in local.
+   import org.springframework.beans.factory.annotation.Value;
+
+   ...
+
+   import org.springframework.web.bind.annotation.CrossOrigin;
+
+   ...
+
+   //Uncomment this & line 13 if you want to run this app with react frontend in local.
+   @CrossOrigin(origins = "http://localhost:3000")
+   @RestController
+   @RequestMapping("/api/messages")
+   public class MessageController {
+
+       //uncomment this if you want to run this app in local.
+       //Get env var(aoaiurl, aoaikey) from application.properties
+       @Value("${aoaiurl}")
+       private String aoaiUrl;
+
+       @Value("${aoaikey}")
+       private String aoaiApiToken;
+
+       //comment this two lines if you want to run this app in local.
+       //private String aoaiUrl = System.getenv("AOAI__API_Endpoint") + "openai/deployments/model-gpt35turbo/chat/completions?api-version=2023-03-15-preview";
+       //private String aoaiApiToken = System.getenv("AOAI__API_Key");
+   ```
+
+3. `api/src/main/resources/application.properties` 에 본인이 생성한 Azure OpenAI Endpoint와 API Key 값 삽입
+
+    ```
+    # Uncomment and fill in the following lines to use the AOAI API in local development
+    aoaiurl=<YOUR AOAI ENDPOINT>
+    aoaikey=<YOUR AOAI API KEY>
+    ```
+
+4. 프론트엔드 (React 앱) 빌드
 
     ```bash
     cd web
@@ -50,7 +101,7 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
     npm start
     ```
 
-2. 백엔드 (Spring Boot 앱) 빌드
+5. 백엔드 (Spring Boot 앱) 빌드
 
    - `mvn` 사용시
 
@@ -70,7 +121,7 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
    ![디버거 사용](/images/java_run.png)
 
-3. 웹 앱 접속
+6. 웹 앱 접속
 
    ![웹 앱 접속](/images/react-open.png)
 
@@ -100,13 +151,12 @@ TBD
     ```
 
    > GitHub 코드스페이스 안에서 `azd auth login --use-device-code=false` 명령어를 사용해서 로그인하는 경우, 최초 404 에러가 날 수 있습니다. 이 때 주소창의 `http://localhost:...` 부분을 복사해서 코드스페이스 안에서 새 터미널을 연 후 `curl` 명렁어를 통해 실행시키세요.
-
 3. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다.
 
     ```bash
     gh auth login
 
-    gh workflow run "Azure Dev" --repo $GITHUB_REPOSITORY
+    gh workflow run scenario01-build-deploy.yml --repo $GITHUB_REPOSITORY
     ```
 
    > 만약 `gh auth login` 명령어를 실행시키는 도중 에러가 발생하면 `GITHUB_TOKEN=` 명령어를 실행히켜 토큰을 초기화한 후 다시 실행시킵니다.
