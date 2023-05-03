@@ -44,7 +44,7 @@ export default function App() {
     //Uncomment this & comment fetch("/api/messages") if you want to run in local.
     //fetch("http://localhost:8080/api/messages", {
     // fetch("/api/messages", {
-    fetch(process.env.BACKEND_API_ENDPOINT, {
+    fetch(process.env.REACT_APP_BACKEND_API_ENDPOINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: msgText }),
