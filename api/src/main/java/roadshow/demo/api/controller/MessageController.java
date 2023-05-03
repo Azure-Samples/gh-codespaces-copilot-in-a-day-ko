@@ -4,13 +4,13 @@ import java.util.Collections;
 import java.util.Map;
 
 //Uncomment below import if you want to run in local.
-//import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-//import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,16 +26,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 //Uncomment this & line 13 if you want to run this app with react frontend in local.
-// @CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${corsOrigin}")
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
 
     //aoai-url from application.properties
-    @Value("${aoai.endpoint}")
+    @Value("${aoaiEndpoint}")
     private String aoaiUrl;
 
-    @Value("${aoai.apiKey}")
+    @Value("${aoaiApiKey}")
     private String aoaiApiToken;
 
     @PostMapping
