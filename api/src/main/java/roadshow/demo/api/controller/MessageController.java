@@ -28,10 +28,10 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 public class MessageController {
 
     //aoai-url from application.properties
-    @Value("${aoaiurl}")
+    @Value("${aoai.endpoint}")
     private String aoaiUrl;
 
-    @Value("${aoaikey}")
+    @Value("${aoai.apiKey}")
     private String aoaiApiToken;
 
     @PostMapping
