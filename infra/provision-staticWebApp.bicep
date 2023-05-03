@@ -1,6 +1,9 @@
 param name string
 param location string = resourceGroup().location
 
+@secure()
+param apiManagementId string
+
 module wrkspc './logAnalyticsWorkspace.bicep' = {
   name: 'LogAnalyticsWorkspace_StaticWebApp'
   params: {
@@ -26,6 +29,7 @@ module sttapp './staticWebApp.bicep' = {
     appInsightsId: appins.outputs.id
     appInsightsInstrumentationKey: appins.outputs.instrumentationKey
     appInsightsConnectionString: appins.outputs.connectionString
+    apiManagementId: apiManagementId
   }
 }
 

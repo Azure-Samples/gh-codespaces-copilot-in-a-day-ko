@@ -7,6 +7,8 @@ param appInsightsId string
 param appInsightsInstrumentationKey string
 @secure()
 param appInsightsConnectionString string
+@secure()
+param apiManagementId string
 
 var staticApp = {
   name: 'sttapp-${name}'
@@ -16,13 +18,16 @@ var staticApp = {
     instrumentationKey: appInsightsInstrumentationKey
     connectionString: appInsightsConnectionString
   }
+  apiManagement: {
+    id: apiManagementId
+  }
 }
 
 resource sttapp 'Microsoft.Web/staticSites@2022-03-01' = {
   name: staticApp.name
   location: location
   sku: {
-    name: 'Free'
+    name: 'Standard'
   }
   properties: {
     allowConfigFileUpdates: true
@@ -39,6 +44,14 @@ resource sttappSettings 'Microsoft.Web/staticSites/config@2022-03-01' = {
   }
 }
 
+resource sttappLinkedBackend 'Microsoft.Web/staticSites/linkedBackends@2022-03-01' = {
+  name: 'backend'
+  parent: sttapp
+  properties: {
+    backendResourceId: staticApp.apiManagement.id
+  }
+}
+  
 output id string = sttapp.id
 output name string = sttapp.name
 output hostname string = sttapp.properties.defaultHostname
