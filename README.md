@@ -40,41 +40,6 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
 ## 시작하기
 
-### 스프링 앱 로컬 실행
-
-1. 프론트엔드 (React 앱) 빌드
-
-   ```bash
-   cd web
-   npm install
-   npm start
-   ```
-
-2. 백엔드 (Spring Boot 앱) 빌드
-
-   - `mvn` 사용시
-
-     ```bash
-     cd api
-     mvn spring-boot:run
-     ```
-
-   - `mvnw` 사용시
-
-     ```bash
-     cd api
-     ./mvnw spring-boot:run
-     ```
-
-   - 디버거 사용시
-
-     ![디버거 사용](/images/java_run.png)
-
-3. 웹 앱 접속
-
-   ![웹 앱 접속](/images/react-open.png)
-
-
 ### 사전 준비사항
 
 - [GitHub 계정](https://github.com/signup)
@@ -82,15 +47,64 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 - [애저 구독 (무료)](https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-93951-juyoo)
 
 
-### 설치 및 배포
+### 퀵스타트 0 &ndash; 코드스페이스 이용
 
-TBD
+1. `api/src/main/resources/application-dev.properties` 파일을 생성한 후 아래 내용을 입력합니다. `{{Azure_OpenAI_Service_Endpoint}}` 값과 `{{Azure_OpenAI_Service_API_Key}}` 값은 아래 프로비저닝할 애저 OpenAI 서비스 인스턴스를 참조합니다.
+
+    ```ini
+    AOAI_API_ENDPOINT={{Azure_OpenAI_Service_Endpoint}}
+    AOAI_API_KEY={{Azure_OpenAI_Service_API_Key}}
+    
+    CORS_ORIGIN=https://${CODESPACE_NAME}-3000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}
+    ```
+
+1. 터미널을 하나 열고 아래 명령어를 순서대로 적용해 프론트엔드 앱을 실행시킵니다.
+
+   - 로컬에서 실행시킬 경우
+
+     ```bash
+     cd web
+     npm install
+     npm run start
+     ```
+
+   - 코드스페이스에서 실행시킬 경우
+
+     ```bash
+     cd web
+     npm install
+     npm run start:codespace
+     ```
+
+1. 새 터미널을 열고 아래 명령어를 순서대로 적용해 백엔드 앱을 실행시킵니다.
+
+   - `mvn` 사용할 경우
+
+     ```bash
+     cd api
+     mvn spring-boot:run
+     ```
+
+   - `mvnw` 사용할 경우
+
+     ```bash
+     cd api
+     ./mvnw spring-boot:run
+     ```
+
+   - 코드스페이스 디버거 사용할 경우
+
+     ![디버거 사용](/images/java_run.png)
+
+1. 웹 앱 접속
+
+   ![웹 앱 접속](/images/react-open.png)
 
 
 ### 퀵스타트 1 &ndash; 애저 Bicep 이용
 
 1. 이 리포지토리를 자신의 계정으로 포크합니다.
-2. 아래 명령어를 차례대로 실행시켜 애저에 리소스를 프로비저닝합니다.
+1. 아래 명령어를 차례대로 실행시켜 애저에 리소스를 프로비저닝합니다.
 
    ```bash
    azd auth login --use-device-code=false
@@ -101,7 +115,7 @@ TBD
 
    > GitHub 코드스페이스 안에서 `azd auth login --use-device-code=false` 명령어를 사용해서 로그인하는 경우, 최초 404 에러가 날 수 있습니다. 이 때 주소창의 `http://localhost:...` 부분을 복사해서 코드스페이스 안에서 새 터미널을 연 후 `curl` 명렁어를 통해 실행시키세요.
 
-3. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다.
+1. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다.
 
    ```bash
    gh auth login
@@ -111,6 +125,7 @@ TBD
 
    > 만약 `gh auth login` 명령어를 실행시키는 도중 에러가 발생하면 `GITHUB_TOKEN=` 명령어를 실행시켜 토큰을 초기화한 후 다시 실행시킵니다.
 
+1. 배포가 끝난 후 애저 포털에서 애저 정적 웹 앱 인스턴스를 찾아 실행시켜 제대로 배포가 되었는지 확인합니다.
 
 ### 퀵스타트 2 &ndash; 애저 Terraform 이용
 

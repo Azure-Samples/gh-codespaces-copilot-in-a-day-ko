@@ -11,6 +11,8 @@ param appInsightsConnectionString string
 @secure()
 param aoaiApiKey string
 param aoaiApiEndpoint string
+param aoaiApiVersion string = '2022-12-01'
+param aoaiApiDeploymentId string
 
 var asplan = {
   id: appServicePlanId
@@ -24,6 +26,8 @@ var appInsights = {
 var aoai = {
   apiKey: aoaiApiKey
   endpoint: aoaiApiEndpoint
+  apiVersion: aoaiApiVersion
+  deploymentId: aoaiApiDeploymentId
 }
 
 var apiApp = {
@@ -54,12 +58,20 @@ resource appsvc 'Microsoft.Web/sites@2022-03-01' = {
         }
         // Azure OpenAI Service
         {
-          name: 'AOAI__API_Key'
+          name: 'AOAI_API_KEY'
           value: aoai.apiKey
         }
         {
-          name: 'AOAI__API_Endpoint'
+          name: 'AOAI_API_ENDPOINT'
           value: aoai.endpoint
+        }
+        {
+          name: 'AOAI_API_VERSION'
+          value: aoai.apiVersion
+        }
+        {
+          name: 'AOAI_API_DEPLOYMENT_ID'
+          value: aoai.deploymentId
         }
       ]
     }
