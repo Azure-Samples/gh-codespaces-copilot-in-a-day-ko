@@ -61,11 +61,6 @@ resource appsvc 'Microsoft.Web/sites@2022-03-01' = {
           name: 'AOAI__API_Endpoint'
           value: aoai.endpoint
         }
-        {
-          //Github workflow deployment enable
-          name: 'WEBSITE_WEBDEPLOY_USE_SCM'
-          value: 'true'
-        }
       ]
     }
   }
@@ -74,7 +69,7 @@ resource appsvc 'Microsoft.Web/sites@2022-03-01' = {
 var policies = [
   {
     name: 'scm'
-    allow: true
+    allow: false
   }
   {
     name: 'ftp'
