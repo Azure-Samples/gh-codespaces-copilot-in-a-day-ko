@@ -10,7 +10,6 @@ param appInsightsConnectionString string
 @secure()
 param apiManagementId string
 
-
 var staticApp = {
   name: 'sttapp-${name}'
   location: location
