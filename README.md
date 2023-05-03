@@ -40,92 +40,6 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
 ## 시작하기
 
-### 앱 로컬 실행
-
-1. `web/App.js` 의 로컬 실행 주석 해제, Azure 실행 주석 처리
-
-   ```javascript
-   //Send the message to the backend api
-   //Uncomment this & comment fetch("/api/messages") if you want to run in local.
-   fetch("http://localhost:8080/api/messages", {
-   //fetch("/api/messages", {
-   method: "POST",
-   headers: { "Content-Type": "application/json" },
-   body: JSON.stringify({ text: msgText }),
-   })
-   ```
-2. `api/src/main/java/roadshow/demo/api/controller/MessageController.java` 의 로컬 실행 주석 해제, Azure 실행 주석 처리
-
-   ```java
-   //Uncomment below import if you want to run in local.
-   import org.springframework.beans.factory.annotation.Value;
-
-   ...
-
-   import org.springframework.web.bind.annotation.CrossOrigin;
-
-   ...
-
-   //Uncomment this & line 13 if you want to run this app with react frontend in local.
-   @CrossOrigin(origins = "http://localhost:3000")
-   @RestController
-   @RequestMapping("/api/messages")
-   public class MessageController {
-
-       //uncomment this if you want to run this app in local.
-       //Get env var(aoaiurl, aoaikey) from application.properties
-       @Value("${aoaiurl}")
-       private String aoaiUrl;
-
-       @Value("${aoaikey}")
-       private String aoaiApiToken;
-
-       //comment this two lines if you want to run this app in local.
-       //private String aoaiUrl = System.getenv("AOAI__API_Endpoint") + "openai/deployments/model-gpt35turbo/chat/completions?api-version=2023-03-15-preview";
-       //private String aoaiApiToken = System.getenv("AOAI__API_Key");
-   ```
-
-3. `api/src/main/resources/application.properties` 에 본인이 생성한 Azure OpenAI Endpoint와 API Key 값 삽입
-
-    ```
-    # Uncomment and fill in the following lines to use the AOAI API in local development
-    aoaiurl=<YOUR AOAI ENDPOINT>
-    aoaikey=<YOUR AOAI API KEY>
-    ```
-
-4. 프론트엔드 (React 앱) 빌드
-
-   ```bash
-   cd web
-   npm install
-   npm start
-   ```
-
-5. 백엔드 (Spring Boot 앱) 빌드
-
-   - `mvn` 사용시
-
-     ```bash
-     cd api
-     mvn spring-boot:run
-     ```
-
-   - `mvnw` 사용시
-
-     ```bash
-     cd api
-     ./mvnw spring-boot:run
-     ```
-
-   - 디버거 사용시
-
-     ![디버거 사용](/images/java_run.png)
-
-6. 웹 앱 접속
-
-   ![웹 앱 접속](/images/react-open.png)
-
-
 ### 사전 준비사항
 
 - [GitHub 계정](https://github.com/signup)
@@ -133,15 +47,64 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 - [애저 구독 (무료)](https://azure.microsoft.com/ko-kr/free/?WT.mc_id=dotnet-93951-juyoo)
 
 
-### 설치 및 배포
+### 퀵스타트 0 &ndash; 코드스페이스 이용
 
-TBD
+1. `api/src/main/resources/application-dev.properties` 파일을 생성한 후 아래 내용을 입력합니다. `{{Azure_OpenAI_Service_Endpoint}}` 값과 `{{Azure_OpenAI_Service_API_Key}}` 값은 아래 프로비저닝할 애저 OpenAI 서비스 인스턴스를 참조합니다.
+
+    ```ini
+    aoaiEndpoint={{Azure_OpenAI_Service_Endpoint}}
+    aoaiApiKey={{Azure_OpenAI_Service_API_Key}}
+    
+    corsOrigin=https://${CODESPACE_NAME}-3000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}
+    ```
+
+1. 터미널을 하나 열고 아래 명령어를 순서대로 적용해 프론트엔드 앱을 실행시킵니다.
+
+   - 로컬에서 실행시킬 경우
+
+     ```bash
+     cd web
+     npm install
+     npm run start
+     ```
+
+   - 코드스페이스에서 실행시킬 경우
+
+     ```bash
+     cd web
+     npm install
+     npm run start:codespace
+     ```
+
+1. 새 터미널을 열고 아래 명령어를 순서대로 적용해 백엔드 앱을 실행시킵니다.
+
+   - `mvn` 사용할 경우
+
+     ```bash
+     cd api
+     mvn spring-boot:run
+     ```
+
+   - `mvnw` 사용할 경우
+
+     ```bash
+     cd api
+     ./mvnw spring-boot:run
+     ```
+
+   - 코드스페이스 디버거 사용할 경우
+
+     ![디버거 사용](/images/java_run.png)
+
+1. 웹 앱 접속
+
+   ![웹 앱 접속](/images/react-open.png)
 
 
 ### 퀵스타트 1 &ndash; 애저 Bicep 이용
 
 1. 이 리포지토리를 자신의 계정으로 포크합니다.
-2. 아래 명령어를 차례대로 실행시켜 애저에 리소스를 프로비저닝합니다.
+1. 아래 명령어를 차례대로 실행시켜 애저에 리소스를 프로비저닝합니다.
 
    ```bash
    azd auth login --use-device-code=false
@@ -151,7 +114,8 @@ TBD
    ```
 
    > GitHub 코드스페이스 안에서 `azd auth login --use-device-code=false` 명령어를 사용해서 로그인하는 경우, 최초 404 에러가 날 수 있습니다. 이 때 주소창의 `http://localhost:...` 부분을 복사해서 코드스페이스 안에서 새 터미널을 연 후 `curl` 명렁어를 통해 실행시키세요.
-3. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다.
+
+1. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다.
 
    ```bash
    gh auth login
@@ -161,6 +125,7 @@ TBD
 
    > 만약 `gh auth login` 명령어를 실행시키는 도중 에러가 발생하면 `GITHUB_TOKEN=` 명령어를 실행시켜 토큰을 초기화한 후 다시 실행시킵니다.
 
+1. 배포가 끝난 후 애저 포털에서 애저 정적 웹 앱 인스턴스를 찾아 실행시켜 제대로 배포가 되었는지 확인합니다.
 
 ### 퀵스타트 2 &ndash; 애저 Terraform 이용
 

@@ -3,7 +3,6 @@ package roadshow.demo.api.controller;
 import java.util.Collections;
 import java.util.Map;
 
-//Uncomment below import if you want to run in local.
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,28 +24,31 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-//Uncomment this & line 13 if you want to run this app with react frontend in local.
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
 
-    //aoai-url from application.properties
     @Value("${aoaiEndpoint}")
-    private String aoaiUrl;
+    private String aoaiEndpoint;
 
     @Value("${aoaiApiKey}")
-    private String aoaiApiToken;
+    private String aoaiApiKey;
+
+    @Value("${aoaiDeploymentId}")
+    private String aoaiDeploymentId;
+
+    @Value("${aoaiApiVersion}")
+    private String aoaiApiVersion;
 
     private static final String ALLOWED_ORIGINS = "${corsOrigin}";
 
     @CrossOrigin(origins = ALLOWED_ORIGINS)
     @PostMapping
     public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
-        // System.out.println("aoaiApiToken: " + aoaiApiToken);
+        // System.out.println("aoaiEndpoint: " + aoaiEndpoint);
+        // System.out.println("aoaiApiKey: " + aoaiApiKey);
 
-        aoaiUrl = aoaiUrl + "openai/deployments/model-gpt35turbo/chat/completions?api-version=2023-03-15-preview";
-
-        System.out.println("aoaiUrl: " + aoaiUrl);
+        String requestUrl = aoaiEndpoint + "openai/deployments/" + aoaiDeploymentId + "/chat/completions?api-version=" + aoaiApiVersion;
 
         String inputMsg = requestBody.get("text");
         String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
@@ -54,7 +56,7 @@ public class MessageController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         //make header with key "api-key"
-        headers.set("api-key", aoaiApiToken);
+        headers.set("api-key", aoaiApiKey);
         
         String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 300}";
         HttpEntity<String> entity = new HttpEntity<String>(body, headers);
@@ -64,9 +66,9 @@ public class MessageController {
         ResponseEntity<String> response;
         String content;
 
-        //Make try catch exception for ResponseEntity<String> response = restTemplate.postForEntity(aoaiUrl, entity, String.class);
+        //Make try catch exception for ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, entity, String.class);
         try {
-            response = restTemplate.postForEntity(aoaiUrl, entity, String.class);
+            response = restTemplate.postForEntity(requestUrl, entity, String.class);
             String jsonResponse = response.getBody();
             // Parse the JSON string using Jackson
             ObjectMapper objectMapper = new ObjectMapper();
