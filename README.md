@@ -52,10 +52,10 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 1. `api/src/main/resources/application-dev.properties` 파일을 생성한 후 아래 내용을 입력합니다. `{{Azure_OpenAI_Service_Endpoint}}` 값과 `{{Azure_OpenAI_Service_API_Key}}` 값은 아래 프로비저닝할 애저 OpenAI 서비스 인스턴스를 참조합니다.
 
     ```ini
-    aoaiEndpoint={{Azure_OpenAI_Service_Endpoint}}
-    aoaiApiKey={{Azure_OpenAI_Service_API_Key}}
+    AOAI_API_ENDPOINT={{Azure_OpenAI_Service_Endpoint}}
+    AOAI_API_KEY={{Azure_OpenAI_Service_API_Key}}
     
-    corsOrigin=https://${CODESPACE_NAME}-3000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}
+    CORS_ORIGIN=https://${CODESPACE_NAME}-3000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}
     ```
 
 1. 터미널을 하나 열고 아래 명령어를 순서대로 적용해 프론트엔드 앱을 실행시킵니다.

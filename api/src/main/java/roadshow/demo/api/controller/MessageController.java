@@ -28,19 +28,19 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @RequestMapping("/api/messages")
 public class MessageController {
 
-    @Value("${aoaiEndpoint}")
+    @Value("${AOAI_API_ENDPOINT}")
     private String aoaiEndpoint;
 
-    @Value("${aoaiApiKey}")
+    @Value("${AOAI_API_KEY}")
     private String aoaiApiKey;
 
-    @Value("${aoaiDeploymentId}")
+    @Value("${AOAI_API_DEPLOYMENT_ID}")
     private String aoaiDeploymentId;
 
-    @Value("${aoaiApiVersion}")
+    @Value("${AOAI_API_VERSION}")
     private String aoaiApiVersion;
 
-    private static final String ALLOWED_ORIGINS = "${corsOrigin}";
+    private static final String ALLOWED_ORIGINS = "${CORS_ORIGIN}";
 
     @CrossOrigin(origins = ALLOWED_ORIGINS)
     @PostMapping

@@ -4,6 +4,8 @@ param location string = resourceGroup().location
 @secure()
 param aoaiApiKey string
 param aoaiApiEndpoint string
+param aoaiApiVersion string = '2022-12-01'
+param aoaiApiDeploymentId string
 
 module wrkspc './logAnalyticsWorkspace.bicep' = {
   name: 'LogAnalyticsWorkspace_AppService'
@@ -40,6 +42,8 @@ module appsvc './appService.bicep' = {
     appServicePlanId: asplan.outputs.id
     aoaiApiKey: aoaiApiKey
     aoaiApiEndpoint: aoaiApiEndpoint
+    aoaiApiVersion: aoaiApiVersion
+    aoaiApiDeploymentId: aoaiApiDeploymentId
   }
 }
 

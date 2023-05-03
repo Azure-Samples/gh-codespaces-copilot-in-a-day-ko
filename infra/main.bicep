@@ -28,6 +28,8 @@ module appsvc './provision-appService.bicep' = {
     location: location
     aoaiApiKey: cogsvc.outputs.aoaiApiKey
     aoaiApiEndpoint: cogsvc.outputs.aoaiApiEndpoint
+    aoaiApiVersion: cogsvc.outputs.aoaiApiVersion
+    aoaiApiDeploymentId: cogsvc.outputs.aoaiApiDeploymentId
   }
 }
     
