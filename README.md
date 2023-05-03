@@ -58,24 +58,6 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
     CORS_ORIGIN=https://${CODESPACE_NAME}-3000.${GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN}
     ```
 
-1. 터미널을 하나 열고 아래 명령어를 순서대로 적용해 프론트엔드 앱을 실행시킵니다.
-
-   - 로컬에서 실행시킬 경우
-
-     ```bash
-     cd web
-     npm install
-     npm run start
-     ```
-
-   - 코드스페이스에서 실행시킬 경우
-
-     ```bash
-     cd web
-     npm install
-     npm run start:codespace
-     ```
-
 1. 새 터미널을 열고 아래 명령어를 순서대로 적용해 백엔드 앱을 실행시킵니다.
 
    - `mvn` 사용할 경우
@@ -94,9 +76,21 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
    - 코드스페이스 디버거 사용할 경우
 
-     ![디버거 사용](/images/java_run.png)
+     ![디버거 사용](/images/java-run.png)
 
-1. 웹 앱 접속
+1. 새 터미널을 하나 열고 아래 명령어를 순서대로 적용해 프론트엔드 앱을 실행시킵니다.
+
+   ```bash
+   cd web
+   npm install
+   npm run start:codespace
+   ```
+
+1. 아래 그림과 같이 3000번 포트와 8080번 포트를 Private 에서 Public으로 바꿉니다.
+
+   ![포트 가시성 변경](/images/codespace-ports.png)
+
+1. 웹 앱에 접속합니다.
 
    ![웹 앱 접속](/images/react-open.png)
 
