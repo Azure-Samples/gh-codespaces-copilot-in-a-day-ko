@@ -42,8 +42,11 @@ public class MessageController {
     @CrossOrigin(origins = ALLOWED_ORIGINS)
     @PostMapping
     public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
-        // System.out.println("aoaiUrl: " + aoaiUrl);
         // System.out.println("aoaiApiToken: " + aoaiApiToken);
+
+        aoaiUrl = aoaiUrl + "openai/deployments/model-gpt35turbo/chat/completions?api-version=2023-03-15-preview";
+
+        System.out.println("aoaiUrl: " + aoaiUrl);
 
         String inputMsg = requestBody.get("text");
         String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
