@@ -43,6 +43,10 @@ var namedValues = [
     name: 'APIM_NAME'
     value: apiManagement.name
   }
+  {
+    name: 'STTAPP_URL'
+    value: 'to_be_updated'
+  }
 ]
 
 var products = [

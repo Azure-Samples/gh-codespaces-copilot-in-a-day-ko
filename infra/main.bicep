@@ -11,15 +11,6 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
 }
 
-module sttapp './provision-staticWebApp.bicep' = {
-  name: 'StaticWebApp'
-  scope: rg
-  params: {
-    name: name
-    location: location
-  }
-}
-  
 module cogsvc './provision-cognitiveServices.bicep' = {
   name: 'CognitiveServices'
   scope: rg
@@ -69,3 +60,14 @@ module apis './provision-apiManagementApi.bicep' = {
     apiManagementApiValue: 'openapi: 3.0.1\r\ninfo:\r\n  title: Ask Me Anything\r\n  description: You can ask me anything!\r\n  version: 1.0.0\r\nservers:\r\n  - url: http://localhost:8080/api\r\npaths: {}'
   }
 }
+
+module sttapp './provision-staticWebApp.bicep' = {
+    name: 'StaticWebApp'
+    scope: rg
+    params: {
+      name: name
+      location: location
+      apiManagementId: apim.outputs.id
+    }
+  }
+  

@@ -31,17 +31,12 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 @RequestMapping("/api/messages")
 public class MessageController {
 
-    //uncomment this if you want to run this app in local.
-    //Get env var(aoaiurl, aoaikey) from application.properties
-    // @Value("${aoaiurl}")
-    // private String aoaiUrl;
+    //aoai-url from application.properties
+    @Value("${aoai.endpoint}")
+    private String aoaiUrl;
 
-    // @Value("${aoaikey}")
-    // private String aoaiApiToken;
-
-    //comment this two lines if you want to run this app in local.
-    private String aoaiUrl = System.getenv("AOAI__API_Endpoint") + "openai/deployments/model-gpt35turbo/chat/completions?api-version=2023-03-15-preview";
-    private String aoaiApiToken = System.getenv("AOAI__API_Key");
+    @Value("${aoai.apiKey}")
+    private String aoaiApiToken;
 
     @PostMapping
     public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {

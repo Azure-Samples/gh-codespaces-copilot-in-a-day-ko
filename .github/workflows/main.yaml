@@ -1,0 +1,119 @@
+name: Azure Dev
+
+on:
+  push:
+    branches:
+      - main
+      - session01
+      - session02
+      - session03
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  # set this to the name of your Azure Resource Group
+  AZURE_RESOURCE_GROUP_NAME: 'rg-${{ secrets.AZURE_ENV_NAME }}'
+  # set this to the name of your Azure Static Web Apps
+  AZURE_STTAPP_NAME: 'sttapp-${{ secrets.AZURE_ENV_NAME }}-web'
+  # set this to the name of your Azure App Service
+  AZURE_WEBAPP_NAME: 'appsvc-${{ secrets.AZURE_ENV_NAME }}-api'
+  # set this to the name of your Azure API Management
+  AZURE_APIM_NAME: 'apim-${{ secrets.AZURE_ENV_NAME }}'
+  # set this to the Java version to use
+  JAVA_VERSION: '17'
+  # set this to the OpenJDK distribution to use
+  DISTRIBUTION: microsoft
+
+permissions:
+  contents: read
+  id-token: write
+  
+jobs:
+  build_and_deploy_aswa:
+    name: Build and Deploy to ASWA (Frontend)
+    runs-on : ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
+      - name: Install ASWA CLI
+        shell: bash
+        run: |
+          npm install -g @azure/static-web-apps-cli
+      
+      - name: Create artifacts
+        shell: bash
+        run: |
+          swa build
+
+      - name: Login to Azure
+        uses: Azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Get SWA token
+        shell: bash
+        run: |
+          swa_token=$(az staticwebapp secrets list \
+          -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+          -n ${{ env.AZURE_STTAPP_NAME }} \
+          --query "properties.apiKey" -o tsv)
+
+          echo "::add-mask::$swa_token"
+          echo "SWA_TOKEN=$swa_token" >> $GITHUB_ENV
+
+      - name: Deploy SWA to Azure
+        shell: bash
+        run: |
+          swa deploy \
+              -d ${{ env.SWA_TOKEN }} \
+              --env default
+
+      - name: Update APIM Named Value
+        shell: bash
+        run: |
+          hostname=$(az staticwebapp show \
+            -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+            -n ${{ env.AZURE_STTAPP_NAME }} \
+            --query "defaultHostname" -o tsv)
+
+          nv=$(az apim nv update \
+            -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+            -n ${{ env.AZURE_APIM_NAME }} \
+            --named-value-id STTAPP_URL \
+            --value $hostname)
+
+  build_and_deploy_appservice:
+    name: Build and Deploy to App Service (Backend)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+
+      - name: Set up Java version
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.DISTRIBUTION }}
+          cache: 'maven'
+
+      - name: Create artifacts
+        shell: bash
+        run: mvn -f api/pom.xml clean install
+
+      - name: Login to Azure
+        uses: Azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy Web App to Azure
+        uses: Azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: api/target/*.jar
