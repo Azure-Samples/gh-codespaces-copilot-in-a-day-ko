@@ -100,7 +100,7 @@ jobs:
         uses: Azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          package: src/target/*.jar
+          package: api/target/*.jar
 
   #     - name: Upload artifact for deployment job
   #       uses: actions/upload-artifact@v3
