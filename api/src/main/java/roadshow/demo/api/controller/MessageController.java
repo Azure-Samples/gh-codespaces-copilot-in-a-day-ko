@@ -26,7 +26,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 //Uncomment this & line 13 if you want to run this app with react frontend in local.
-@CrossOrigin(origins = "${corsOrigin}")
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
@@ -38,6 +37,9 @@ public class MessageController {
     @Value("${aoaiApiKey}")
     private String aoaiApiToken;
 
+    private static final String ALLOWED_ORIGINS = "${corsOrigin}";
+
+    @CrossOrigin(origins = ALLOWED_ORIGINS)
     @PostMapping
     public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
         // System.out.println("aoaiUrl: " + aoaiUrl);
