@@ -11,8 +11,7 @@ public class MessageRequest {
         return text;
     }
 
-    public String setText(String text){
+    public void setText(String text){
         this.text = text;
-        return this.text;
     }
 }

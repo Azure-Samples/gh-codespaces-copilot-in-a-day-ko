@@ -98,7 +98,7 @@ public class MessageController {
 
         String requestUrl = aoaiEndpoint + "openai/deployments/" + aoaiDeploymentId + "/chat/completions?api-version=" + aoaiApiVersion;
 
-        String inputMsg = request.setText("text");
+        String inputMsg = request.getText();
         String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
         
         HttpHeaders headers = new HttpHeaders();
