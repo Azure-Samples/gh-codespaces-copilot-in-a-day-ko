@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @Tag(name = "Messages", description = "질문 제출 및 답변 호출")
 @RestController
@@ -67,6 +68,15 @@ public class MessageController {
                 )
             )
         ),
+
+        parameters = {
+            @Parameter(
+                name = "text",
+                description = "질문 내용 전달",
+                required = true,
+                schema = @Schema(type = "string", defaultValue = "Azure의 장점에 대해 알려줘.")
+            )
+        },
 
         responses = {
             @ApiResponse(responseCode = "200", description = "성공", content = {
