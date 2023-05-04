@@ -27,9 +27,11 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import roadshow.demo.api.model.MessageRequest;
+import roadshow.demo.api.model.MessageResponse;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.Parameter;
 
 @Tag(name = "Messages", description = "질문 제출 및 답변 호출")
 @RestController
@@ -50,6 +52,8 @@ public class MessageController {
 
     private static final String ALLOWED_ORIGINS = "${CORS_ORIGIN}";
 
+    private static final String errorJson = "{\n    \"content\": \"죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥\"  \n}";
+
     //OpenAPI Configuration
     @Operation(
         summary = "Azure OpenAI API 질문 제출 및 답변 호출",
@@ -60,59 +64,46 @@ public class MessageController {
             required = true,
             content = @Content(
                 mediaType = "application/json",
-                schema = @Schema(
-                    type = "object",
-                    description = "Azure 질문 입력",
-                    example = "{\"text\": \"Azure의 장점에 대해 알려줘.\"}",
-                    requiredProperties = {"text"}
-                )
+                schema = @Schema(implementation = MessageRequest.class)
             )
         ),
-
-        parameters = {
-            @Parameter(
-                name = "text",
-                description = "질문 내용 전달",
-                required = true,
-                schema = @Schema(type = "string", defaultValue = "Azure의 장점에 대해 알려줘.")
-            )
-        },
 
         responses = {
             @ApiResponse(responseCode = "200", description = "성공", content = {
                 @Content(
                     mediaType = "application/json",
-                    schema = @Schema(
-                        type = "object",
-                        description = "AOAI 답변",
-                        example = "{\"content\": \"Azure의 장점에 대한 답변입니다.\"}",
-                        requiredProperties = {"content"}
-                    )
+                    schema = @Schema(implementation = MessageResponse.class)
                 )
             }),
     
             @ApiResponse(responseCode = "404", description = "AOAI 호출 throttling error", content = { 
                 @Content(
                     mediaType = "application/json",
-                    schema = @Schema(
-                        type = "object",
-                        description = "404 Error",
-                        example = "{\"content\": \"죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥\"}"
-                )) 
+                    examples = @ExampleObject(value = errorJson),
+                    schema = @Schema(implementation = MessageResponse.class)
+                )
             }),
-            @ApiResponse(responseCode = "500", description = "AOAI Endpoint 또는 API Key 에러", content = { @Content(schema = @Schema()) }) 
+
+            @ApiResponse(responseCode = "500", description = "AOAI Endpoint 또는 API Key 에러", content = { 
+                @Content(
+                    mediaType = "application/json",
+                    examples = @ExampleObject(value = errorJson),
+                    schema = @Schema(implementation = MessageResponse.class)
+                ) 
+            }) 
         }
     )
 
     @CrossOrigin(origins = ALLOWED_ORIGINS)
     @PostMapping
-    public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
+    //public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
+    public String sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {
         // System.out.println("aoaiEndpoint: " + aoaiEndpoint);
         // System.out.println("aoaiApiKey: " + aoaiApiKey);
 
         String requestUrl = aoaiEndpoint + "openai/deployments/" + aoaiDeploymentId + "/chat/completions?api-version=" + aoaiApiVersion;
 
-        String inputMsg = requestBody.get("text");
+        String inputMsg = request.setText("text");
         String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
         
         HttpHeaders headers = new HttpHeaders();
@@ -139,7 +130,7 @@ public class MessageController {
 
         } catch(Exception e) {
             System.out.println("Exception: " + e);
-            content = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";
+            content = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";;
         }
 
         //jsonify content with key "reply"
