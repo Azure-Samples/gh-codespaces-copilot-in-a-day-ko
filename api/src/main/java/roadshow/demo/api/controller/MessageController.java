@@ -24,6 +24,13 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Tag(name = "Messages", description = "질문 제출 및 답변 호출")
 @RestController
 @RequestMapping("/api/messages")
 public class MessageController {
@@ -41,6 +48,51 @@ public class MessageController {
     private String aoaiApiVersion;
 
     private static final String ALLOWED_ORIGINS = "${CORS_ORIGIN}";
+
+    //OpenAPI Configuration
+    @Operation(
+        summary = "Azure OpenAI API 질문 제출 및 답변 호출",
+        description = "AOAI API(GPT 3.5)를 호출하여 질문을 text로 전달하고 content 답변을 받아 리턴합니다.",
+
+        requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "text 키 값으로 질문을 전달합니다.",
+            required = true,
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(
+                    type = "object",
+                    description = "Azure 질문 입력",
+                    example = "{\"text\": \"Azure의 장점에 대해 알려줘.\"}",
+                    requiredProperties = {"text"}
+                )
+            )
+        ),
+
+        responses = {
+            @ApiResponse(responseCode = "200", description = "성공", content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                        type = "object",
+                        description = "AOAI 답변",
+                        example = "{\"content\": \"Azure의 장점에 대한 답변입니다.\"}",
+                        requiredProperties = {"content"}
+                    )
+                )
+            }),
+    
+            @ApiResponse(responseCode = "404", description = "AOAI 호출 throttling error", content = { 
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(
+                        type = "object",
+                        description = "404 Error",
+                        example = "{\"content\": \"죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥\"}"
+                )) 
+            }),
+            @ApiResponse(responseCode = "500", description = "AOAI Endpoint 또는 API Key 에러", content = { @Content(schema = @Schema()) }) 
+        }
+    )
 
     @CrossOrigin(origins = ALLOWED_ORIGINS)
     @PostMapping
