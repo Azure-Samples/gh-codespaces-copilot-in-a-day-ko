@@ -46,7 +46,12 @@ export default function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: msgText }),
     })
-      .then((response) => response.json()) // parse JSON from request
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      }) 
       .then((data) => {
         const result = data.reply;
         if (result) { //If there is a result, append the bot message with the reply from openai

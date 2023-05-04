@@ -1,8 +1,5 @@
 package roadshow.demo.api.controller;
 
-import java.util.Collections;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,9 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -52,7 +47,7 @@ public class MessageController {
 
     private static final String ALLOWED_ORIGINS = "${CORS_ORIGIN}";
 
-    private static final String errorJson = "{\n    \"content\": \"죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥\"  \n}";
+    private static final String errorJson = "{\n    \"reply\": \"죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥\"  \n}";
 
     //OpenAPI Configuration
     @Operation(
@@ -97,7 +92,7 @@ public class MessageController {
     @CrossOrigin(origins = ALLOWED_ORIGINS)
     @PostMapping
     //public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
-    public String sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {
+    public MessageResponse sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {
         // System.out.println("aoaiEndpoint: " + aoaiEndpoint);
         // System.out.println("aoaiApiKey: " + aoaiApiKey);
 
@@ -117,7 +112,7 @@ public class MessageController {
         
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response;
-        String content;
+        String reply;
 
         //Make try catch exception for ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, entity, String.class);
         try {
@@ -126,19 +121,16 @@ public class MessageController {
             // Parse the JSON string using Jackson
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(jsonResponse);
-            content = rootNode.get("choices").get(0).get("message").get("content").asText();
+            reply = rootNode.get("choices").get(0).get("message").get("content").asText();
 
         } catch(Exception e) {
             System.out.println("Exception: " + e);
-            content = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";;
+            reply = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";;
         }
+        
+        MessageResponse messageResponse = new MessageResponse();
+        messageResponse.setReply(reply);
+        return messageResponse;
 
-        //jsonify content with key "reply"
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectWriter writer = objectMapper.writer(new DefaultPrettyPrinter());
-        
-        String json = writer.writeValueAsString(Collections.singletonMap("reply", content));
-        
-        return json;
     }
 }
