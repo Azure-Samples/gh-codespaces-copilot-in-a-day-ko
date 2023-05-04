@@ -58,8 +58,10 @@ module apis './provision-apiManagementApi.bicep' = {
     apiManagementApiDescription: appsvc.outputs.name
     apiManagementApiServiceUrl: 'https://${appsvc.outputs.name}.azurewebsites.net/api'
     apiManagementApiPath: 'api'
-    apiManagementApiFormat: 'openapi'
-    apiManagementApiValue: 'openapi: 3.0.1\r\ninfo:\r\n  title: Ask Me Anything\r\n  description: You can ask me anything!\r\n  version: 1.0.0\r\nservers:\r\n  - url: http://localhost:8080/api\r\npaths: {}'
+    // apiManagementApiFormat: 'openapi'
+    // apiManagementApiValue: 'openapi: 3.0.1\r\ninfo:\r\n  title: Ask Me Anything\r\n  description: You can ask me anything!\r\n  version: 1.0.0\r\nservers:\r\n  - url: http://localhost:8080/api\r\npaths: {}'
+    apiManagementApiFormat: 'openapi-link'
+    apiManagementApiValue: 'https://raw.githubusercontent.com/Azure-Samples/gh-codespaces-copilot-in-a-day-ko/main/infra/openapi.yaml'
   }
 }
 

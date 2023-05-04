@@ -1,0 +1,77 @@
+openapi: 3.0.1
+info:
+  title: Ask Me Anything Bot API
+  description: Azure OpenAI를 이용한 Azure 봇 서비스 API
+  contact:
+    name: App Innovation - Microsoft Korea
+    email: appinno-kr@microsoft.com
+  license:
+    name: MIT License
+    url: https://choosealicense.com/licenses/mit/
+  version: 1.0.0
+servers:
+  - url: https://localhost:8080
+    description: Generated server url
+tags:
+  - name: Messages
+    description: 질문 제출 및 답변 호출
+paths:
+  /api/messages:
+    post:
+      tags:
+        - Messages
+      summary: Azure OpenAI API 질문 제출 및 답변 호출
+      description: Azure OpenAI API(GPT 3.5)를 호출하여 질문을 text로 전달하고 content 답변을 받아 리턴합니다.
+      operationId: sendMessage
+      requestBody:
+        description: text 키 값으로 질문을 전달합니다.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageRequest'
+        required: true
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '404':
+          description: AOAI 호출 throttling error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                reply: 죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥
+        '500':
+          description: AOAI Endpoint 또는 API Key 에러
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                reply: 죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥
+components:
+  schemas:
+    MessageRequest:
+      required:
+        - text
+      type: object
+      properties:
+        text:
+          type: string
+          description: AOAI에게 질문할 내용
+          example: Azure의 장점에 대해 알려줘.
+      description: Request body schema for the message API
+    MessageResponse:
+      required:
+        - reply
+      type: object
+      properties:
+        reply:
+          type: string
+          description: AOAI 답변
+          example: Azure의 장점은 말입니다...
+      description: Response body schema for the message API
