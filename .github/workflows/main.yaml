@@ -73,13 +73,21 @@ jobs:
               -d ${{ env.SWA_TOKEN }} \
               --env default
 
-      - name: Update APIM Named Value
+      - name: Get ASWA hostname
+        id: sttapp
         shell: bash
         run: |
           hostname=$(az staticwebapp show \
             -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
             -n ${{ env.AZURE_STTAPP_NAME }} \
             --query "defaultHostname" -o tsv)
+
+          echo "hostname=$hostname" >> $GITHUB_OUTPUT
+
+      - name: Update APIM Named Value
+        shell: bash
+        run: |
+          hostname=${{ steps.sttapp.outputs.hostname }}
 
           nv=$(az apim nv update \
             -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
@@ -91,9 +99,7 @@ jobs:
         id: apimcheck
         shell: bash
         run: |
-          hostname=$(echo $(az staticwebapp show \
-            -g $AZURE_RESOURCE_GROUP_NAME -n $AZURE_STTAPP_NAME \
-            --query "defaultHostname" -o tsv) | cut -d'.' -f1)
+          hostname=$(echo "${{ steps.sttapp.outputs.hostname }}" | cut -d'.' -f1)
 
           api=$(az apim product api list \
             -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
