@@ -95,12 +95,6 @@ jobs:
             -g $AZURE_RESOURCE_GROUP_NAME -n $AZURE_STTAPP_NAME \
             --query "defaultHostname" -o tsv) | cut -d'.' -f1)
 
-          # checked=$(az apim product api check \
-          #   -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
-          #   -n ${{ env.AZURE_APIM_NAME }} \
-          #   --product-id $hostname \
-          #   --api-id ${{ env.AZURE_WEBAPP_NAME }})
-
           api=$(az apim product api list \
             -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
             -n ${{ env.AZURE_APIM_NAME }} \
