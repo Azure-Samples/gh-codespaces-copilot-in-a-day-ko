@@ -51,7 +51,7 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
 1. 이 리포지토리를 자신의 계정으로 포크합니다.
 1. 코드스페이스를 실행시킵니다.
-1. `api/src/main/java/roadshow/demo/api/controller/MessageController.java` 파일을 열어 아래 라인의 주석을 해제합니다.
+1. `api/src/main/java/roadshow/demo/api/controller/MessageController.java` 파일을 열어 아래 라인의 주석을 해제해서 CORS를 활성화 시킵니다.
 
     ```java
     // ⬇️⬇️⬇️ Uncomment the line below to enable CORS ⬇️⬇️⬇️
