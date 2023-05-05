@@ -50,6 +50,17 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 ### 퀵스타트 0 &ndash; 코드스페이스 이용
 
 1. 이 리포지토리를 자신의 계정으로 포크합니다.
+1. 코드스페이스를 실행시킵니다.
+1. `api/src/main/java/roadshow/demo/api/controller/MessageController.java` 파일을 열어 아래 라인의 주석을 해제합니다.
+
+    ```java
+    // ⬇️⬇️⬇️ Uncomment the line below to enable CORS ⬇️⬇️⬇️
+    // @CrossOrigin(origins = ALLOWED_ORIGINS)
+    // ⬆️⬆️⬆️ Uncomment the line above to enable CORS ⬆️⬆️⬆️
+    @PostMapping
+    public MessageResponse sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {
+    ```
+
 1. `api/src/main/resources/application-dev.properties` 파일을 생성한 후 아래 내용을 입력합니다. `{{Azure_OpenAI_Service_Endpoint}}` 값과 `{{Azure_OpenAI_Service_API_Key}}` 값은 아래 프로비저닝할 애저 OpenAI 서비스 인스턴스를 참조합니다.
 
     ```ini

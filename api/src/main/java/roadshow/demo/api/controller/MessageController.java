@@ -89,9 +89,10 @@ public class MessageController {
         }
     )
 
+    // ⬇️⬇️⬇️ Uncomment the line below to enable CORS ⬇️⬇️⬇️
     // @CrossOrigin(origins = ALLOWED_ORIGINS)
+    // ⬆️⬆️⬆️ Uncomment the line above to enable CORS ⬆️⬆️⬆️
     @PostMapping
-    //public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
     public MessageResponse sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {
         // System.out.println("aoaiEndpoint: " + aoaiEndpoint);
         // System.out.println("aoaiApiKey: " + aoaiApiKey);

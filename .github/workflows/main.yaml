@@ -104,8 +104,8 @@ jobs:
           echo "hostname=$hostname" >> $GITHUB_OUTPUT
           echo "checked=$checked" >> $GITHUB_OUTPUT
 
-      - name: Update APIM Product
-        if: steps.apimcheck.outputs.checked == 'false'
+      - name: Update APIM Product with API
+        if: steps.apimcheck.outputs.checked != 'true'
         shell: bash
         run: |
           hostname=${{ steps.apimcheck.outputs.hostname }}
