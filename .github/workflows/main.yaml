@@ -101,11 +101,11 @@ jobs:
             --product-id $hostname \
             --api-id ${{ env.AZURE_WEBAPP_NAME }})
 
-          echo "::set-output name=hostname::$hostname"
-          echo "::set-output name=checked::$checked"
+          echo "hostname=$hostname" >> $GITHUB_OUTPUT
+          echo "checked=$checked" >> $GITHUB_OUTPUT
 
       - name: Update APIM Product
-        if: ${{ steps.apimcheck.outputs.checked }} == "false"
+        if: steps.apimcheck.outputs.checked == 'false'
         shell: bash
         run: |
           hostname=${{ steps.apimcheck.outputs.hostname }}
