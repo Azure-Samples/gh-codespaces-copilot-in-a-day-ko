@@ -67,12 +67,11 @@ module apis './provision-apiManagementApi.bicep' = {
 }
 
 module sttapp './provision-staticWebApp.bicep' = {
-    name: 'StaticWebApp'
-    scope: rg
-    params: {
-      name: name
-      location: location
-      apiManagementId: apim.outputs.id
-    }
+  name: 'StaticWebApp'
+  scope: rg
+  params: {
+    name: name
+    location: location
+    apiManagementId: apim.outputs.id
   }
-  
+}

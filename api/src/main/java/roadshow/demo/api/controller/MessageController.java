@@ -89,7 +89,7 @@ public class MessageController {
         }
     )
 
-    @CrossOrigin(origins = ALLOWED_ORIGINS)
+    // @CrossOrigin(origins = ALLOWED_ORIGINS)
     @PostMapping
     //public String sendMessage(@RequestBody Map<String, String> requestBody) throws JsonMappingException, JsonProcessingException {
     public MessageResponse sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {

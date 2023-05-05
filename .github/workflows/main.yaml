@@ -87,6 +87,35 @@ jobs:
             --named-value-id STTAPP_URL \
             --value $hostname)
 
+      - name: Check APIM Product with API
+        id: apimcheck
+        shell: bash
+        run: |
+          hostname=$(echo $(az staticwebapp show \
+            -g $AZURE_RESOURCE_GROUP_NAME -n $AZURE_STTAPP_NAME \
+            --query "defaultHostname" -o tsv) | cut -d'.' -f1)
+
+          checked=$(az apim product api check \
+            -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+            -n ${{ env.AZURE_APIM_NAME }} \
+            --product-id $hostname \
+            --api-id ${{ env.AZURE_WEBAPP_NAME }})
+
+          echo "::set-output name=hostname::$hostname"
+          echo "::set-output name=checked::$checked"
+
+      - name: Update APIM Product
+        if: ${{ steps.apimcheck.outputs.checked }} == "false"
+        shell: bash
+        run: |
+          hostname=${{ steps.apimcheck.outputs.hostname }}
+
+          api=$(az apim product api add \
+            -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
+            -n ${{ env.AZURE_APIM_NAME }} \
+            --product-id $hostname \
+            --api-id ${{ env.AZURE_WEBAPP_NAME }})
+
   build_and_deploy_appservice:
     name: Build and Deploy to App Service (Backend)
     runs-on: ubuntu-latest
