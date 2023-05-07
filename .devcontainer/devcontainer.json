@@ -43,7 +43,9 @@
       "username": "vscode",
       "uid": "1000",
       "gid": "1000"
-    }
+    },
+
+    "ghcr.io/devcontainers/features/terraform:1": {}
   },
 
   "overrideFeatureInstallOrder": [
