@@ -25,27 +25,27 @@ module aoai './openAI.bicep' = {
   }
 }
 
-module speech './speech.bicep' = {
-  name: 'Speech'
-  params: {
-    name: name
-    location: location
-  }
-}
+// module speech './speech.bicep' = {
+//   name: 'Speech'
+//   params: {
+//     name: name
+//     location: location
+//   }
+// }
 
-module trnsltr './translator.bicep' = {
-  name: 'Translator'
-  params: {
-    name: name
-    location: location
-  }
-}
+// module trnsltr './translator.bicep' = {
+//   name: 'Translator'
+//   params: {
+//     name: name
+//     location: location
+//   }
+// }
 
 output aoaiApiKey string = aoai.outputs.apiKey
 output aoaiApiEndpoint string = aoai.outputs.endpoint
 output aoaiApiVersion string = aoaiModels[0].apiVersion
 output aoaiApiDeploymentId string = aoaiModels[0].deploymentName
-output speechApiKey string = speech.outputs.apiKey
-output speechApiRegion string = speech.outputs.region
-output translatorApiKey string = trnsltr.outputs.apiKey
-output translatorApiEndpoint string = trnsltr.outputs.endpoint
+// output speechApiKey string = speech.outputs.apiKey
+// output speechApiRegion string = speech.outputs.region
+// output translatorApiKey string = trnsltr.outputs.apiKey
+// output translatorApiEndpoint string = trnsltr.outputs.endpoint
