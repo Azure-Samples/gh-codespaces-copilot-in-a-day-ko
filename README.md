@@ -115,8 +115,8 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
    ```bash
    azd auth login --use-device-code=false
    azd init
-   azd pipeline config
    azd up
+   azd pipeline config
    ```
 
    > GitHub 코드스페이스 안에서 `azd auth login --use-device-code=false` 명령어를 사용해서 로그인하는 경우, 최초 404 에러가 날 수 있습니다. 이 때 `azd auth login --use-device-code=false` 명령어를 친 터미널을 종료하지 말고, 주소창의 `http://localhost:...` 링크를 전체 복사합니다. 코드스페이스 안에서 새 터미널을 `zsh`로 연 후 `curl` 명렁어를 통해 실행시키세요.
