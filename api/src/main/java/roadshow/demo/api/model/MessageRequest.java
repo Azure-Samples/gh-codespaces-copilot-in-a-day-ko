@@ -1,5 +1,6 @@
 package roadshow.demo.api.model;
 
+// ⬇️ GH Copilot Demo ⬇️
 import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(name = "MessageRequest", description = "Request body schema for the message API")
@@ -15,3 +16,5 @@ public class MessageRequest {
         this.text = text;
     }
 }
+
+// ⬆️ GH Copilot Demo ⬆️
