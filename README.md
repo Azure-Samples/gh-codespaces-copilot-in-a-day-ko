@@ -133,6 +133,19 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
 1. 배포가 끝난 후 애저 포털에서 애저 정적 웹 앱 인스턴스를 찾아 실행시켜 제대로 배포가 되었는지 확인합니다.
 
+1. 실행이 다 끝났다면 아래 명령어를 통해 리소스를 삭제합니다.
+
+    ```bash
+    # 리소스 삭제
+    azd down --force
+
+    # APIM 완전 삭제
+    pwsh ./infra/Purge-ApiManagement.ps1
+
+    # Cognitive 서비스 완전 삭제
+    pwsh ./infra/Purge-CognitiveService.ps1
+    ```
+
 ### 퀵스타트 2 &ndash; 애저 Terraform 이용
 
 TBD
