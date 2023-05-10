@@ -1,5 +1,6 @@
 package roadshow.demo.api.model;
 
+// ⬇️ GH Copilot Demo ⬇️
 import io.swagger.v3.oas.annotations.media.Schema;
 
 //⬇️ copilot demo ⬇️
@@ -17,3 +18,5 @@ public class MessageRequest {
     }
     //⬆️ copilot demo ⬆️
 }
+
+// ⬆️ GH Copilot Demo ⬆️

@@ -40,12 +40,11 @@ public class MessageController {
     @Value("${AOAI_API_KEY}")
     private String aoaiApiKey;
 
-    @Value("${AOAI_API_DEPLOYMENT_ID}")
+    @Value("${AOAI_DEPLOYMENT_ID}")
     private String aoaiDeploymentId;
 
     @Value("${AOAI_API_VERSION}")
     private String aoaiApiVersion;
-    //⬆️ copilot demo ⬆️
 
     private static final String ALLOWED_ORIGINS = "${CORS_ORIGIN}";
 
@@ -56,7 +55,6 @@ public class MessageController {
         summary = "Azure OpenAI API 질문 제출 및 답변 호출",
         description = "AOAI API(GPT 3.5)를 호출하여 질문을 text로 전달하고 content 답변을 받아 리턴합니다.",
 
-        //⬇️ copilot demo ⬇️
         requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
             description = "text 키 값으로 질문을 전달합니다.",
             required = true,
@@ -65,7 +63,6 @@ public class MessageController {
                 schema = @Schema(implementation = MessageRequest.class)
             )
         ),
-        //⬆️ copilot demo ⬆️
 
         responses = {
             @ApiResponse(responseCode = "200", description = "성공", content = {
@@ -96,6 +93,10 @@ public class MessageController {
     // ⬇️⬇️⬇️ Uncomment the line below to enable CORS ⬇️⬇️⬇️
     // @CrossOrigin(origins = ALLOWED_ORIGINS)
     // ⬆️⬆️⬆️ Uncomment the line above to enable CORS ⬆️⬆️⬆️
+
+    // ⬇️ GH Copilot Demo ⬇️
+    //Make PostMapping with 
+
     @PostMapping
     public MessageResponse sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {
         // System.out.println("aoaiEndpoint: " + aoaiEndpoint);
