@@ -17,7 +17,9 @@ const PERSON_NAME = "애저 너구리🦝"
 
 export default function App() {
   //First message from bot
+  // ⬇️ copilot demo ⬇️
   const [messages, setMessages] = useState([appendMessage(BOT_NAME, BOT_IMG, "left", "안녕하세요, 애저봇입니다. 만나서 반가워요! 오늘은 뭘 도와드릴까요?")]);
+  // ⬆️ copilot demo ⬆️
 
   //Handling form submit function
   function handleSubmit(e) {
@@ -40,6 +42,7 @@ export default function App() {
       appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText),
     ]);
 
+    // ⬇️ copilot demo ⬇️
     //Send the message to the backend api
     fetch(process.env.REACT_APP_BACKEND_API_ENDPOINT, {
       method: "POST",
@@ -63,15 +66,16 @@ export default function App() {
         }
       })
       .catch((error) => console.error(error));
+      // ⬆️ copilot demo ⬆️
     
   }
 
+  // ⬇️ copilot demo ⬇️ (line77 - 79, 86 - 89)
   return (
     <>
   <section className="left-nav">
     
   </section>
-
   <section className="msger">
     <header className="msger-header">
       <div className="msger-header-title">
