@@ -43,7 +43,11 @@
       "username": "vscode",
       "uid": "1000",
       "gid": "1000"
-    }
+    },
+
+    "ghcr.io/devcontainers/features/terraform:1": {},
+
+    "ghcr.io/devcontainers/features/kubectl-helm-minikube:1": {}
   },
 
   "overrideFeatureInstallOrder": [
