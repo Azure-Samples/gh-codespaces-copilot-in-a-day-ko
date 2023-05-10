@@ -15,7 +15,8 @@ param aoaiModels array = [
 //     apiVersion: '2023-03-15-preview'
 //   }
 ]
-  
+
+// ⬇️ copilot demo ⬇️
 module aoai './openAI.bicep' = {
   name: 'OpenAI'
   params: {
@@ -45,6 +46,7 @@ output aoaiApiKey string = aoai.outputs.apiKey
 output aoaiApiEndpoint string = aoai.outputs.endpoint
 output aoaiApiVersion string = aoaiModels[0].apiVersion
 output aoaiApiDeploymentId string = aoaiModels[0].deploymentName
+// ⬆️ copilot demo ⬆️
 // output speechApiKey string = speech.outputs.apiKey
 // output speechApiRegion string = speech.outputs.region
 // output translatorApiKey string = trnsltr.outputs.apiKey

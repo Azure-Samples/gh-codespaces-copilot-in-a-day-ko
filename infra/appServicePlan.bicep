@@ -1,6 +1,7 @@
 param name string
 param location string = resourceGroup().location
 
+// ⬇️ copilot demo ⬇️
 var hostingPlan = {
   name: 'asplan-${name}'
   location: location
@@ -21,3 +22,4 @@ resource asplan 'Microsoft.Web/serverfarms@2022-03-01' = {
 
 output id string = asplan.id
 output name string = asplan.name
+// ⬆️ copilot demo ⬆️
