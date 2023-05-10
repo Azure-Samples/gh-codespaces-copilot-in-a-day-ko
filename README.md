@@ -115,8 +115,8 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
    ```bash
    azd auth login --use-device-code=false
    azd init
-   azd pipeline config
    azd up
+   azd pipeline config
    ```
 
    > GitHub 코드스페이스 안에서 `azd auth login --use-device-code=false` 명령어를 사용해서 로그인하는 경우, 최초 404 에러가 날 수 있습니다. 이 때 `azd auth login --use-device-code=false` 명령어를 친 터미널을 종료하지 말고, 주소창의 `http://localhost:...` 링크를 전체 복사합니다. 코드스페이스 안에서 새 터미널을 `zsh`로 연 후 `curl` 명렁어를 통해 실행시키세요.
@@ -132,6 +132,19 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
    > 만약 `gh auth login` 명령어를 실행시키는 도중 에러가 발생하면 `GITHUB_TOKEN=` 명령어를 실행시켜 토큰을 초기화한 후 다시 실행시킵니다.
 
 1. 배포가 끝난 후 애저 포털에서 애저 정적 웹 앱 인스턴스를 찾아 실행시켜 제대로 배포가 되었는지 확인합니다.
+
+1. 실행이 다 끝났다면 아래 명령어를 통해 리소스를 삭제합니다.
+
+    ```bash
+    # 리소스 삭제
+    azd down --force
+
+    # APIM 완전 삭제
+    pwsh ./infra/Purge-ApiManagement.ps1
+
+    # Cognitive 서비스 완전 삭제
+    pwsh ./infra/Purge-CognitiveService.ps1
+    ```
 
 ### 퀵스타트 2 &ndash; 애저 Terraform 이용
 
