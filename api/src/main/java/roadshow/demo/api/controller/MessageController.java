@@ -33,7 +33,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @RequestMapping("/api/messages")
 public class MessageController {
 
-    //⬇️ copilot demo ⬇️
     @Value("${AOAI_API_ENDPOINT}")
     private String aoaiEndpoint;
 
@@ -99,15 +98,14 @@ public class MessageController {
 
     @PostMapping
     public MessageResponse sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {
+        // ⬇️ copilot demo ⬇️
         // System.out.println("aoaiEndpoint: " + aoaiEndpoint);
         // System.out.println("aoaiApiKey: " + aoaiApiKey);
 
         String requestUrl = aoaiEndpoint + "openai/deployments/" + aoaiDeploymentId + "/chat/completions?api-version=" + aoaiApiVersion;
 
-        // ⬇️ copilot demo ⬇️
         String inputMsg = request.getText();
         String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
-        // ⬆️ copilot demo ⬆️
         
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -117,7 +115,6 @@ public class MessageController {
         String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 300}";
         HttpEntity<String> entity = new HttpEntity<String>(body, headers);
         
-        // ⬇️ copilot demo ⬇️
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response;
         String reply;
@@ -140,6 +137,8 @@ public class MessageController {
         messageResponse.setReply(reply);
         return messageResponse;
         // ⬆️ copilot demo ⬆️
+
+        //return new MessageResponse();
 
     }
 }
