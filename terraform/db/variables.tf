@@ -1,7 +1,7 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "petclinic-ms-182746"
+  default     = "gh-ms-20469-db"
 }
 
 variable "environment" {
@@ -18,12 +18,12 @@ variable "location" {
 
 variable "dns_prefix" {
   type    = string
-  default = "spring-petclinic-ms"
+  default = "spring-gh-ms"
 }
 
 variable "database_name" {
   type        = string
   description = "The PostegreSQL database name"
-  default     = "petclinic"
+  default     = "ghmstest"
 }
 

@@ -63,5 +63,7 @@ resource "azurerm_resource_group" "main" {
 module "database" {
   source           = "./postgresql-flexible-server"
   resource_group   = azurerm_resource_group.main.name
+  environment      = local.environment
   location         = var.location
+  database_name    = var.database_name
 }
