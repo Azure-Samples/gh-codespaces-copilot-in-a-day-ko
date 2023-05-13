@@ -58,7 +58,7 @@ jobs:
       - name: Get SWA token
         shell: bash
         run: |
-          swa_token=$(az staticwebapp vars list \
+          swa_token=$(az staticwebapp secrets list \
           -g ${{ env.AZURE_RESOURCE_GROUP_NAME }} \
           -n ${{ env.AZURE_STTAPP_NAME }} \
           --query "properties.apiKey" -o tsv)
