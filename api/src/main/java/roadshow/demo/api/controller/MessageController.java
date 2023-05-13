@@ -39,7 +39,7 @@ public class MessageController {
     @Value("${AOAI_API_KEY}")
     private String aoaiApiKey;
 
-    @Value("${AOAI_DEPLOYMENT_ID}")
+    @Value("${AOAI_API_DEPLOYMENT_ID}")
     private String aoaiDeploymentId;
 
     @Value("${AOAI_API_VERSION}")
