@@ -94,15 +94,14 @@ public class MessageController {
     // @CrossOrigin(origins = ALLOWED_ORIGINS)
     // ⬆️⬆️⬆️ Uncomment the line above to enable CORS ⬆️⬆️⬆️
 
-    //Make PostMapping with 
-
     @PostMapping
     public MessageResponse sendMessage(@RequestBody MessageRequest request) throws JsonMappingException, JsonProcessingException {
-        // ⬇️ copilot demo ⬇️
-        // System.out.println("aoaiEndpoint: " + aoaiEndpoint);
-        // System.out.println("aoaiApiKey: " + aoaiApiKey);
 
         String requestUrl = aoaiEndpoint + "openai/deployments/" + aoaiDeploymentId + "/chat/completions?api-version=" + aoaiApiVersion;
+
+         // ⬇️ copilot demo ⬇️
+         //1. Get input message from request & make pre message for openai azure bot setting.
+         //2. Make headers instance & set content type as application/json & set api-key as header key.
 
         String inputMsg = request.getText();
         String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
@@ -111,18 +110,28 @@ public class MessageController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         //make header with key "api-key"
         headers.set("api-key", aoaiApiKey);
+
+        // ⬆️ copilot demo ⬆️
         
         String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 300}";
+
+        // ⬇️ copilot demo ⬇️
+        //1. Make HttpEntity instance with body & headers. 
+        //2. Make RestTemplate instance & call postForEntity method with requestUrl, entity, String.class.
+        //3. Get response body & parse it.
+        //4. Make MessageResponse instance & set reply value with parsed response body.
+
         HttpEntity<String> entity = new HttpEntity<String>(body, headers);
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response;
         String reply;
 
-        //Make try catch exception for ResponseEntity<String> response = restTemplate.postForEntity(requestUrl, entity, String.class);
+        //Make try catch exception for restTemplate.postForEntity method.
         try {
             response = restTemplate.postForEntity(requestUrl, entity, String.class);
             String jsonResponse = response.getBody();
+
             // Parse the JSON string using Jackson
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(jsonResponse);
@@ -137,7 +146,8 @@ public class MessageController {
         messageResponse.setReply(reply);
         return messageResponse;
 
-
+        // ⬆️ copilot demo ⬆️
+        //Uncomment below line for initial local test for OpenAPI Swagger UI.
         //return new MessageResponse();
 
     }

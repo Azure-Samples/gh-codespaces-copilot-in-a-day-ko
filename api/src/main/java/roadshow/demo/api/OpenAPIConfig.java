@@ -11,7 +11,7 @@ import io.swagger.v3.oas.models.info.License;
 @Configuration
 public class OpenAPIConfig {
     
-    // ⬇️ copilot demo ⬇️
+    // ⬇️ copilot demo ⬇️ - Content, Info, License
     
     // ⬆️ copilot demo ⬆️
 }
