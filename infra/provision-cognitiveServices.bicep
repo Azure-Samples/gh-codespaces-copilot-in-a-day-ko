@@ -17,14 +17,7 @@ param aoaiModels array = [
 ]
 
 // ⬇️ copilot demo ⬇️
-module aoai './openAI.bicep' = {
-    name: 'aoai'
-    params: {
-      name: name
-      location: 'eastus'
-      aoaiModels: aoaiModels
-    }
-}
+
 // ⬆️ copilot demo ⬆️
 
 // module speech './speech.bicep' = {
@@ -50,7 +43,3 @@ module aoai './openAI.bicep' = {
 
 // ⬇️ copilot demo ⬇️
 //output for aoai API key, endpoint, version, deploymentID
-output aoaiApiKey string = aoai.outputs.apiKey
-output aoaiApiEndpoint string = aoai.outputs.endpoint
-output aoaiApiVersion string = aoaiModels[0].apiVersion
-output aoaiApiDeploymentId string = aoaiModels[0].deploymentName   
