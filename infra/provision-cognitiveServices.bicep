@@ -17,7 +17,15 @@ param aoaiModels array = [
 ]
 
 // ⬇️ copilot demo ⬇️
-
+module aoai './openAI.bicep' = {
+    name: 'aoai'
+    params: {
+      name: name
+      location: 'eastus'
+      aoaiModels: aoaiModels
+    }
+}
+// ⬆️ copilot demo ⬆️
 
 // module speech './speech.bicep' = {
 //   name: 'Speech'
@@ -35,8 +43,14 @@ param aoaiModels array = [
 //   }
 // }
 
-// ⬆️ copilot demo ⬆️
 // output speechApiKey string = speech.outputs.apiKey
 // output speechApiRegion string = speech.outputs.region
 // output translatorApiKey string = trnsltr.outputs.apiKey
 // output translatorApiEndpoint string = trnsltr.outputs.endpoint
+
+// ⬇️ copilot demo ⬇️
+//output for aoai API key, endpoint, version, deploymentID
+output aoaiApiKey string = aoai.outputs.apiKey
+output aoaiApiEndpoint string = aoai.outputs.endpoint
+output aoaiApiVersion string = aoaiModels[0].apiVersion
+output aoaiApiDeploymentId string = aoaiModels[0].deploymentName   
