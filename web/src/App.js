@@ -18,24 +18,39 @@ export default function App() {
     //Prevent page reload
     e.preventDefault();
 
-    // Read the form data
-    const form = e.target;
-    const msgerInput = new FormData(form);
-    const msgText = msgerInput.get("msger-input");
-    if (!msgText) return; //If no message, do nothing
-
-    //Make the input empty
-    form.elements["msger-input"].value = "";
-
-    //Append the message to the chat
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText),
-    ]);
+    // ⬇️ copilot demo ⬇️
+    // 1. Read the form data
+    // 2. Make the input empty
+    // 3. Append the message to the chat
+    // 4. Append the loading message to the chat
 
     // ⬇️ copilot demo ⬇️
     //Send the message to the backend api
-    
+    fetch(process.env.REACT_APP_BACKEND_API_ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: msgText }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      }) 
+      .then((data) => {
+        setMessages((prevMessages) => [
+          ...prevMessages.slice(0, -1), //Remove the loading message
+        ]);
+        const result = data.reply;
+        if (result) { //If there is a result, append the bot message with the reply from openai
+          // botResponse(result);
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            appendMessage(BOT_NAME, BOT_IMG, "left", result),
+          ]);
+        }
+      })
+      .catch((error) => console.error(error));
     // ⬆️ copilot demo ⬆️
     
   }
