@@ -17,7 +17,9 @@ const PERSON_NAME = "애저 너구리🦝"
 
 export default function App() {
   //First message from bot
-  const [messages, setMessages] = useState([appendMessage(BOT_NAME, BOT_IMG, "left", "안녕하세요, 애저봇입니다. 만나서 반가워요! 오늘은 뭘 도와드릴까요?")]);
+  // ⬇️ copilot demo ⬇️
+  const [messages, setMessages] = useState([appendMessage(BOT_NAME, BOT_IMG, "left", "안녕하세요! 애저봇입니다. 애저에 대한 모든 것을 알려드릴게요🤖")]);
+  // ⬆️ copilot demo ⬆️
 
   //Handling form submit function
   function handleSubmit(e) {
@@ -71,26 +73,30 @@ export default function App() {
         }
       })
       .catch((error) => console.error(error));
+    // ⬆️ copilot demo ⬆️
     
   }
 
+  // ⬇️ copilot demo ⬇️ (askmeazure.openai header text, message.map function)
   return (
     <>
   <section className="left-nav">
     
   </section>
-
   <section className="msger">
     <header className="msger-header">
+      
       <div className="msger-header-title">
         <i className="fas fa-comment-alt" /> askmeazure.openai🤖
       </div>
+      
       <div className="msger-header-options">
         <span>
           <i className="fas fa-cog" />
         </span>
       </div>
     </header>
+    
     <div className="msger-chat" id="msger-chat">
       {messages.map((message, index) => (
           <React.Fragment key={index}>
@@ -98,6 +104,7 @@ export default function App() {
           </React.Fragment>
         ))}
     </div>
+
     <form className="msger-inputarea" onSubmit={handleSubmit}>
       <input
         type="text"

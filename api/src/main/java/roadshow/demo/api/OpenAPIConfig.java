@@ -11,6 +11,7 @@ import io.swagger.v3.oas.models.info.License;
 @Configuration
 public class OpenAPIConfig {
     
+    // ⬇️ copilot demo ⬇️ - Content, Info, License
     @Bean
     public OpenAPI myOpenAPI() {
         Contact contact = new Contact();
@@ -28,4 +29,5 @@ public class OpenAPIConfig {
         
         return new OpenAPI().info(info);
     }
+    // ⬆️ copilot demo ⬆️
 }
