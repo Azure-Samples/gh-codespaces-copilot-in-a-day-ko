@@ -130,7 +130,7 @@ public class MessageController {
 
         } catch(Exception e) {
             System.out.println("Exception: " + e);
-            reply = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";;
+            reply = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";
         }
         
         MessageResponse messageResponse = new MessageResponse();
