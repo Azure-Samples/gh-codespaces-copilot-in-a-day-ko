@@ -15,37 +15,31 @@ param aoaiModels array = [
 //     apiVersion: '2023-03-15-preview'
 //   }
 ]
-  
-module aoai './openAI.bicep' = {
-  name: 'OpenAI'
-  params: {
-    name: name
-    location: 'eastus'
-    aoaiModels: aoaiModels
-  }
-}
 
-module speech './speech.bicep' = {
-  name: 'Speech'
-  params: {
-    name: name
-    location: location
-  }
-}
+// ⬇️ copilot demo ⬇️
 
-module trnsltr './translator.bicep' = {
-  name: 'Translator'
-  params: {
-    name: name
-    location: location
-  }
-}
+// ⬆️ copilot demo ⬆️
 
-output aoaiApiKey string = aoai.outputs.apiKey
-output aoaiApiEndpoint string = aoai.outputs.endpoint
-output aoaiApiVersion string = aoaiModels[0].apiVersion
-output aoaiApiDeploymentId string = aoaiModels[0].deploymentName
-output speechApiKey string = speech.outputs.apiKey
-output speechApiRegion string = speech.outputs.region
-output translatorApiKey string = trnsltr.outputs.apiKey
-output translatorApiEndpoint string = trnsltr.outputs.endpoint
+// module speech './speech.bicep' = {
+//   name: 'Speech'
+//   params: {
+//     name: name
+//     location: location
+//   }
+// }
+
+// module trnsltr './translator.bicep' = {
+//   name: 'Translator'
+//   params: {
+//     name: name
+//     location: location
+//   }
+// }
+
+// output speechApiKey string = speech.outputs.apiKey
+// output speechApiRegion string = speech.outputs.region
+// output translatorApiKey string = trnsltr.outputs.apiKey
+// output translatorApiEndpoint string = trnsltr.outputs.endpoint
+
+// ⬇️ copilot demo ⬇️
+//output for aoai API key, endpoint, version, deploymentID

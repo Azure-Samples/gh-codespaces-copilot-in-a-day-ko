@@ -24,13 +24,10 @@ module appins './applicationInsights.bicep' = {
   }
 }
 
-module asplan './appServicePlan.bicep' = {
-  name: 'AppServicePlan_AppService'
-  params: {
-    name: '${name}-api'
-    location: location
-  }
-}
+// ⬇️ copilot demo ⬇️
+// add app service plan module
+
+// ⬆️ copilot demo ⬆️
 
 module appsvc './appService.bicep' = {
   name: 'AppService_AppService'
