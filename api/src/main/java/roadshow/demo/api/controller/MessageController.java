@@ -99,19 +99,26 @@ public class MessageController {
 
         String requestUrl = aoaiEndpoint + "openai/deployments/" + aoaiDeploymentId + "/chat/completions?api-version=" + aoaiApiVersion;
 
-         // ⬇️ copilot demo ⬇️
-         //1. Get input message from request & make pre message for openai azure bot setting.
-         //2. Make headers instance & set content type as application/json & set api-key as header key.
+        // ⬇️ copilot demo ⬇️
+        //1. Get input message from request & make pre message for openai azure bot setting.
+        //2. Make headers instance & set content type as application/json & set api-key as header key.
 
         // ⬆️ copilot demo ⬆️
         
         String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 300}";
 
+        HttpEntity<String> entity = new HttpEntity<String>(body, headers);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response;
+        String reply;
+
         // ⬇️ copilot demo ⬇️
-        //1. Make HttpEntity instance with body & headers. 
-        //2. Make RestTemplate instance & call postForEntity method with requestUrl, entity, String.class.
-        //3. Get response body & parse it.
-        //4. Make MessageResponse instance & set reply value with parsed response body.
+        //1. Make post request with entity & requestUrl.
+        //2. Get response body & parse it as JsonNode.
+        //3. Get reply message from JsonNode.
+        //4. Make catch exception to handle error.
+        //5. Make MessageResponse instance & set reply message to it.
+
 
         // ⬆️ copilot demo ⬆️
         //Uncomment below line for initial local test for OpenAPI Swagger UI.

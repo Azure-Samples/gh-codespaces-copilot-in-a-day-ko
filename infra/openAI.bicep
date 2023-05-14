@@ -9,10 +9,16 @@ param aoaiModels array = [
   }
 ]
 
+var openai = {
+    name: 'aoai-${name}'
+    location: location
+    skuName: 'S0'
+    models: aoaiModels
+}
+
 // ⬇️ copilot demo ⬇️
-// 1. Define openai variable
-// 2. Define aoai resource(accounts)
-// 3. Define openaiDeployment resource(deployments)
+// 1. Define aoai resource(accounts)
+// 2. Define openaiDeployment resource(deployments)
 
 
 // ⬆️ copilot demo ⬆️
