@@ -14,39 +14,6 @@ param aoaiModels array = [
 // 2. Define aoai resource(accounts)
 // 3. Define openaiDeployment resource(deployments)
 
-var openai = {
-  name: 'aoai-${name}'
-  location: location
-  skuName: 'S0'
-  models: aoaiModels
-}
-
-resource aoai 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
-  name: openai.name
-  location: openai.location
-  kind: 'OpenAI'
-  sku: {
-    name: openai.skuName
-  }
-  properties: {
-    customSubDomainName: openai.name
-    publicNetworkAccess: 'Enabled'
-  }
-}
-
-resource openaiDeployment 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = [for model in openai.models: {
-  name: '${aoai.name}/${model.deploymentName}'
-  properties: {
-    model: {
-      format: 'OpenAI'
-      name: model.name
-      version: model.version
-    }
-    scaleSettings: {
-      scaleType: 'Standard'
-    }
-  }
-}]
 
 // ⬆️ copilot demo ⬆️
 

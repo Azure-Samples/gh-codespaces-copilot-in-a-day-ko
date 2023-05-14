@@ -39,7 +39,7 @@ public class MessageController {
     @Value("${AOAI_API_KEY}")
     private String aoaiApiKey;
 
-    @Value("${AOAI_DEPLOYMENT_ID}")
+    @Value("${AOAI_API_DEPLOYMENT_ID}")
     private String aoaiDeploymentId;
 
     @Value("${AOAI_API_VERSION}")
@@ -103,14 +103,6 @@ public class MessageController {
          //1. Get input message from request & make pre message for openai azure bot setting.
          //2. Make headers instance & set content type as application/json & set api-key as header key.
 
-        String inputMsg = request.getText();
-        String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        //make header with key "api-key"
-        headers.set("api-key", aoaiApiKey);
-
         // ⬆️ copilot demo ⬆️
         
         String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 300}";
@@ -121,34 +113,9 @@ public class MessageController {
         //3. Get response body & parse it.
         //4. Make MessageResponse instance & set reply value with parsed response body.
 
-        HttpEntity<String> entity = new HttpEntity<String>(body, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response;
-        String reply;
-
-        //Make try catch exception for restTemplate.postForEntity method.
-        try {
-            response = restTemplate.postForEntity(requestUrl, entity, String.class);
-            String jsonResponse = response.getBody();
-
-            // Parse the JSON string using Jackson
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode rootNode = objectMapper.readTree(jsonResponse);
-            reply = rootNode.get("choices").get(0).get("message").get("content").asText();
-
-        } catch(Exception e) {
-            System.out.println("Exception: " + e);
-            reply = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";
-        }
-        
-        MessageResponse messageResponse = new MessageResponse();
-        messageResponse.setReply(reply);
-        return messageResponse;
-
         // ⬆️ copilot demo ⬆️
         //Uncomment below line for initial local test for OpenAPI Swagger UI.
-        //return new MessageResponse();
+        return new MessageResponse();
 
     }
 }

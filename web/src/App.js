@@ -1,15 +1,6 @@
 import './App.css';
 import React, { useState } from 'react';
 
-//** Sample Bot Messages for test **
-// const BOT_MSGS = [
-//   "Hi, how are you?",
-//   "Ohh... I can't understand what you trying to say. Sorry!",
-//   "I like to play games... But I don't know how to play!",
-//   "Sorry if my answers are not relevant. :))",
-//   "I feel sleepy! :("
-// ]; 
-
 const BOT_IMG = "https://www.svgrepo.com/show/331302/azure-v2.svg";
 const PERSON_IMG = "https://yt3.googleusercontent.com/ytc/AL5GRJXQLWIBG375TkT3VMb6V_PoQAwm3ob1uW3k5l8SbQ=s900-c-k-c0x00ffffff-no-rj";
 const BOT_NAME = "애저봇☁️";
@@ -18,7 +9,7 @@ const PERSON_NAME = "애저 너구리🦝"
 export default function App() {
   //First message from bot
   // ⬇️ copilot demo ⬇️
-  const [messages, setMessages] = useState([appendMessage(BOT_NAME, BOT_IMG, "left", "안녕하세요! 애저봇입니다. 애저에 대한 모든 것을 알려드릴게요🤖")]);
+
   // ⬆️ copilot demo ⬆️
 
   //Handling form submit function
@@ -27,25 +18,11 @@ export default function App() {
     //Prevent page reload
     e.preventDefault();
 
-    // Read the form data
-    const form = e.target;
-    const msgerInput = new FormData(form);
-    const msgText = msgerInput.get("msger-input");
-    if (!msgText) return; //If no message, do nothing
-
-    //Make the input empty
-    form.elements["msger-input"].value = "";
-
-    //Append the message to the chat
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText),
-    ]);
-
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      appendMessage(BOT_NAME, BOT_IMG, "left", "잠시만 기다려주세요... 답변을 생성하는 중입니다🤖🏃"),
-    ]);
+    // ⬇️ copilot demo ⬇️
+    // 1. Read the form data
+    // 2. Make the input empty
+    // 3. Append the message to the chat
+    // 4. Append the loading message to the chat
 
     //Send the message to the backend api
     fetch(process.env.REACT_APP_BACKEND_API_ENDPOINT, {
@@ -86,9 +63,7 @@ export default function App() {
   <section className="msger">
     <header className="msger-header">
       
-      <div className="msger-header-title">
-        <i className="fas fa-comment-alt" /> askmeazure.openai🤖
-      </div>
+      
       
       <div className="msger-header-options">
         <span>
@@ -98,11 +73,9 @@ export default function App() {
     </header>
     
     <div className="msger-chat" id="msger-chat">
-      {messages.map((message, index) => (
-          <React.Fragment key={index}>
-            {message}
-          </React.Fragment>
-        ))}
+
+    
+
     </div>
 
     <form className="msger-inputarea" onSubmit={handleSubmit}>
