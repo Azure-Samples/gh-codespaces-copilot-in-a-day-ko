@@ -14,13 +14,13 @@ on:
 
 env:
   # set this to the name of your Azure Resource Group
-  AZURE_RESOURCE_GROUP_NAME: 'rg-${{ secrets.AZURE_ENV_NAME }}'
+  AZURE_RESOURCE_GROUP_NAME: 'rg-${{ vars.AZURE_ENV_NAME }}'
   # set this to the name of your Azure Static Web Apps
-  AZURE_STTAPP_NAME: 'sttapp-${{ secrets.AZURE_ENV_NAME }}-web'
+  AZURE_STTAPP_NAME: 'sttapp-${{ vars.AZURE_ENV_NAME }}-web'
   # set this to the name of your Azure App Service
-  AZURE_WEBAPP_NAME: 'appsvc-${{ secrets.AZURE_ENV_NAME }}-api'
+  AZURE_WEBAPP_NAME: 'appsvc-${{ vars.AZURE_ENV_NAME }}-api'
   # set this to the name of your Azure API Management
-  AZURE_APIM_NAME: 'apim-${{ secrets.AZURE_ENV_NAME }}'
+  AZURE_APIM_NAME: 'apim-${{ vars.AZURE_ENV_NAME }}'
   # set this to the Java version to use
   JAVA_VERSION: '17'
   # set this to the OpenJDK distribution to use
@@ -51,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: Azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Get SWA token
         shell: bash
@@ -149,9 +149,9 @@ jobs:
       - name: Login to Azure
         uses: Azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy Web App to Azure
         uses: Azure/webapps-deploy@v2
