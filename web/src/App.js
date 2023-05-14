@@ -40,6 +40,11 @@ export default function App() {
       appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText),
     ]);
 
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      appendMessage(BOT_NAME, BOT_IMG, "left", "잠시만 기다려주세요... 답변을 생성하는 중입니다🤖🏃"),
+    ]);
+
     //Send the message to the backend api
     fetch(process.env.REACT_APP_BACKEND_API_ENDPOINT, {
       method: "POST",
@@ -53,6 +58,9 @@ export default function App() {
         return response.json();
       }) 
       .then((data) => {
+        setMessages((prevMessages) => [
+          ...prevMessages.slice(0, -1), //Remove the loading message
+        ]);
         const result = data.reply;
         if (result) { //If there is a result, append the bot message with the reply from openai
           // botResponse(result);
@@ -85,7 +93,9 @@ export default function App() {
     </header>
     <div className="msger-chat" id="msger-chat">
       {messages.map((message, index) => (
-          <React.Fragment key={index}>{message}</React.Fragment>
+          <React.Fragment key={index}>
+            {message}
+          </React.Fragment>
         ))}
     </div>
     <form className="msger-inputarea" onSubmit={handleSubmit}>
