@@ -103,6 +103,20 @@ public class MessageController {
          //1. Get input message from request & make pre message for openai azure bot setting.
          //2. Make headers instance & set content type as application/json & set api-key as header key.
 
+        // Define input message from request
+        String inputMsg = request.getText();
+
+        //Define pre message for openai azure bot setting
+        //Make json string with role & content key.
+        String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
+
+        //Make headers instance
+        HttpHeaders headers = new HttpHeaders();
+        //Set content type as application/json
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        //Set api-key as header key
+        headers.set("api-key", aoaiApiKey);
+
         // ⬆️ copilot demo ⬆️
         
         String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 300}";
@@ -113,9 +127,54 @@ public class MessageController {
         //3. Get response body & parse it.
         //4. Make MessageResponse instance & set reply value with parsed response body.
 
+        //Make HttpEntity instance with body & headers.
+        HttpEntity<String> entity = new HttpEntity<String>(body, headers);
+
+        //Make Rest Template instance.
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response;
+        //Define reply String
+        String reply;
+
+        //Make try catch block for handling exception.
+        //Make ResponseEntity instance & call postForEntity method with requestUrl, entity, String.class.
+        try {
+
+            response = restTemplate.postForEntity(requestUrl, entity, String.class);
+            //Define jsonBody as response body.
+            String jsonBody = response.getBody();
+
+            //Get response body & parse it.
+            ObjectMapper mapper = new ObjectMapper();
+
+            //Define JsonNode instance & call readTree method with jsonBody
+            JsonNode node = mapper.readTree(jsonBody); 
+
+            //Initialize reply value
+            // The node schema is: {"choices":[{"message":{"content": "reply value"}}]}
+            //Get content key value from the node
+
+            reply = node.get("choices").get(0).get("message").get("content").asText();
+            
+
+        } catch (Exception e) {
+            //Set reply value with error message.
+
+            System.out.println(e);
+
+            reply = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";
+        }
+
+        //Make MessageResponse instance & set reply value with parsed response body.
+        MessageResponse messageResponse = new MessageResponse();
+        messageResponse.setReply(reply);
+
+        return messageResponse;
+        
+
         // ⬆️ copilot demo ⬆️
         //Uncomment below line for initial local test for OpenAPI Swagger UI.
-        return new MessageResponse();
+        //return new MessageResponse();
 
     }
 }

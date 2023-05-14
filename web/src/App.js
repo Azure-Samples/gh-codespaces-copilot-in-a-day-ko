@@ -9,6 +9,10 @@ const PERSON_NAME = "애저 너구리🦝"
 export default function App() {
   //First message from bot
   // ⬇️ copilot demo ⬇️
+  
+  //Define messages const array to set the first message from azure bot
+  //Call appendMessage function to render the first message from azure bot
+  const [messages, setMessages] = useState([appendMessage(BOT_NAME, BOT_IMG, "left", "안녕하세요. 애저봇입니다. 애저에 대한 건 무엇이든지 물어보세요!")]);
 
   // ⬆️ copilot demo ⬆️
 
@@ -23,6 +27,34 @@ export default function App() {
     // 2. Make the input empty
     // 3. Append the message to the chat
     // 4. Append the loading message to the chat
+
+    //1. Read the form data
+    //Get target value and define it as form.
+    const form = e.target;
+    //Define msgerInput as a FormData
+    const msgerInput = new FormData(form);
+    //Get the value from "msger-input" element.
+    const msgText = msgerInput.get("msger-input");
+    //If there is no message, return.
+    if (!msgText) return;
+
+    //2. Make the input empty
+    //get "msger-input" element from form and make the value empty.
+    form.elements["msger-input"].value = "";
+
+    //3. Append the input message to the chat
+    // Use setMessages function to append the message to the chat
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText),
+    ]);
+
+    //4. Append the loading message to the chat
+    // Use setMessages function to append the loading message to the chat
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      appendMessage(BOT_NAME, BOT_IMG, "left", "잠시만 기다려주세요... 답변을 생성하는 중입니다🤖🏃"),
+    ]);
 
     //Send the message to the backend api
     fetch(process.env.REACT_APP_BACKEND_API_ENDPOINT, {
@@ -54,7 +86,11 @@ export default function App() {
     
   }
 
-  // ⬇️ copilot demo ⬇️ (askmeazure.openai header text, message.map function)
+  // ⬇️ copilot demo ⬇️ 
+  // (askmeazure.openai header text, message.map function)
+  // Add msager head title with the title name: askmeazure.openai
+  // Add message.map function to render messages.
+  // Each message should be React.Fragment 
   return (
     <>
   <section className="left-nav">
@@ -63,7 +99,9 @@ export default function App() {
   <section className="msger">
     <header className="msger-header">
       
-      
+      <div className="msger-header-title">
+        <i className="fas fa-robot" /> askmeazure.openai🤖
+      </div>
       
       <div className="msger-header-options">
         <span>
@@ -74,7 +112,9 @@ export default function App() {
     
     <div className="msger-chat" id="msger-chat">
 
-    
+      {messages.map((message, i) => (
+        <React.Fragment key={i}>{message}</React.Fragment>
+      ))}
 
     </div>
 
