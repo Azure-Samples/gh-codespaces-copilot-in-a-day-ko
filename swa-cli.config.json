@@ -1,7 +1,7 @@
 {
   "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
   "configurations": {
-    "gh-codespaces": {
+    "gh-codespaces-copilot-in-a-day-ko": {
       "appLocation": "web",
       "outputLocation": "build",
       "appBuildCommand": "npm run build",
