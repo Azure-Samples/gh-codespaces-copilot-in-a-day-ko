@@ -1,7 +1,7 @@
 variable "application_name" {
   type        = string
   description = "The name of your application"
-  default     = "petclinic-ms-182746"
+  default     = "gh-ms-182746-k8s"
 }
 
 variable "environment" {

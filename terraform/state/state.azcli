@@ -1,9 +1,8 @@
 rgName=rg-terraformstate
 random=$RANDOM 
 saName=terraformstate${random}
-containerName_db=dbstate
 containerName_infra=infrastate
-containerName_app=springstate
+#containerName_db=dbstate
 
 # Create Azure Resource Group
 az group create \
