@@ -24,11 +24,6 @@ export default function App() {
     // 3. Append the message to the chat
     // 4. Append the loading message to the chat
 
-    setMessages((prevMessages) => [
-      ...prevMessages,
-      appendMessage(BOT_NAME, BOT_IMG, "left", "잠시만 기다려주세요... 답변을 생성하는 중입니다🤖🏃"),
-    ]);
-
     //Send the message to the backend api
     fetch(process.env.REACT_APP_BACKEND_API_ENDPOINT, {
       method: "POST",
