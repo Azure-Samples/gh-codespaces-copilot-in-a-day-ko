@@ -22,10 +22,6 @@
 
 > `storage_account_name` 는 Azure에서 만든 결과를 사용합니다.
 
-* TBD
-  
-![TBD](../images/session02-.png)
-
 
 ### 2. `infra-k8s/outputs.tf`
 
@@ -48,9 +44,18 @@
 
 ## Sprint Boot API: 컨테이너화를 위한 코드
 
-### 1. pom.xml
+### 1. pom.xml: https://github.com/Azure-Samples/gh-codespaces-copilot-in-a-day-ko/blob/session02-containerize/api/pom.xml
 
-### 2. Dockerfile
+- 질문 예제 (Copilot Chat, Preview)
+  - `자바 스프링 부트 앱을 컨테이너화하려고 하는데, pom.xml 변경 사항을 추천해줘. <profiles> 파트야.`
+  - `pom.xml 을 통해 Azure Container Registry에 업로드하는 방법을 알려줘`
+
+### 2. Dockerfile: https://github.com/Azure-Samples/gh-codespaces-copilot-in-a-day-ko/blob/session02-containerize/api/Dockerfile
+
+- 질문 예제 (Copilot Chat, Preview)
+  - `Spring Boot앱을 컨테이너화할 때 Dockerfile 예제가 필요해.`
+
+- Java 버전을 17로 맞출 것. 그 외 노출 포트 번호 (8080) 등은 직접 확인이 필요함.
 
 ## 그 외 참고를 위한 시트
 
@@ -58,5 +63,5 @@
 
 ![session02-APIM 설정 변경 화면](../images/session02-azure-apim.png)
 
-* TBD
+* Thank you
 
