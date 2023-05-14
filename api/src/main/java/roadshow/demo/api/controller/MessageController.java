@@ -99,11 +99,13 @@ public class MessageController {
 
         String requestUrl = aoaiEndpoint + "openai/deployments/" + aoaiDeploymentId + "/chat/completions?api-version=" + aoaiApiVersion;
 
-        // ⬇️ copilot demo ⬇️
-        //1. Get input message from request & make pre message for openai azure bot setting.
-        //2. Make headers instance & set content type as application/json & set api-key as header key.
+        String inputMsg = request.getText();
+        String preMsg = "{\"role\": \"system\", \"content\": \"너는 Azure 전문가 Azure Bot이야. 한국어로 대답해줘. 그리고 전체 답변이 300 토큰을 넘지 않도록 잘 요약해줘.\"},";
 
-        // ⬆️ copilot demo ⬆️
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        //make header with key "api-key"
+        headers.set("api-key", aoaiApiKey);
         
         String body = "{\"messages\": [" + preMsg + "{\"role\": \"user\", \"content\": \"" + inputMsg + "\"}], \"max_tokens\": 300}";
 

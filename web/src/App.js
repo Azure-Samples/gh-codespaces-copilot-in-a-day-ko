@@ -54,7 +54,7 @@ export default function App() {
     
   }
 
-  // ⬇️ copilot demo ⬇️ (askmeazure.openai header text, message.map function)
+  // ⬇️ copilot demo ⬇️ (askmeazure.openai header text)
   return (
     <>
   <section className="left-nav">
@@ -74,7 +74,11 @@ export default function App() {
     
     <div className="msger-chat" id="msger-chat">
 
-    
+      {messages.map((message, index) => (
+          <React.Fragment key={index}>
+            {message}
+          </React.Fragment>
+      ))}
 
     </div>
 

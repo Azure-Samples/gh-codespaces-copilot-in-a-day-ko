@@ -16,9 +16,21 @@ var openai = {
     models: aoaiModels
 }
 
+resource aoai 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
+    name: openai.name
+    location: openai.location
+    kind: 'OpenAI'
+    sku: {
+        name: openai.skuName
+    }
+    properties: {
+        customSubDomainName: openai.name
+        publicNetworkAccess: 'Enabled'
+    }
+}
+
 // ⬇️ copilot demo ⬇️
-// 1. Define aoai resource(accounts)
-// 2. Define openaiDeployment resource(deployments)
+//Define openaiDeployment resource(deployments)
 
 
 // ⬆️ copilot demo ⬆️
