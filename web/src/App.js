@@ -74,11 +74,7 @@ export default function App() {
     
     <div className="msger-chat" id="msger-chat">
 
-      {messages.map((message, index) => (
-          <React.Fragment key={index}>
-            {message}
-          </React.Fragment>
-      ))}
+      
 
     </div>
 
