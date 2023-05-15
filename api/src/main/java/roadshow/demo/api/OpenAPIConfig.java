@@ -14,8 +14,8 @@ public class OpenAPIConfig {
     @Bean
     public OpenAPI myOpenAPI() {
         Contact contact = new Contact();
-        contact.setEmail("nayeonkim@microsoft.com");
-        contact.setName("Nayeon Kim");
+        contact.setEmail("racoonbit@microsoft.com");
+        contact.setName("애저 너구리 BIT");
         
         License license = new License().name("MIT License").url("https://choosealicense.com/licenses/mit/");
 

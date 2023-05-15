@@ -25,12 +25,12 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
 ### 애저 정적 웹 앱 (프론트엔드) + 애저 앱 서비스 (백엔드)
 
-![애저 정적 웹 앱 (프론트엔드) + 애저 앱 서비스 (백엔드)](./images/architecture-01.png)
+![애저 정적 웹 앱 (프론트엔드) + 애저 앱 서비스 (백엔드)](./images/architecture-01.jpg)
 
 
-### 애저 정적 웹 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 PostgreSQL (데이터베이스)
+### 애저 정적 웹 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 컨테이너 레지스트리
 
-![애저 정적 웹 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 PostgreSQL (데이터베이스)](./images/architecture-02.png)
+![애저 정적 웹 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 컨테이너 레지스트리](./images/architecture-02.png)
 
 
 ### 파워 앱 (프론트엔드) + 애저 쿠버네티스 서비스 (백엔드) + 애저 PostgreSQL (데이터베이스)
@@ -115,8 +115,8 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
    ```bash
    azd auth login --use-device-code=false
    azd init
-   azd pipeline config
    azd up
+   azd pipeline config
    ```
 
    > GitHub 코드스페이스 안에서 `azd auth login --use-device-code=false` 명령어를 사용해서 로그인하는 경우, 최초 404 에러가 날 수 있습니다. 이 때 `azd auth login --use-device-code=false` 명령어를 친 터미널을 종료하지 말고, 주소창의 `http://localhost:...` 링크를 전체 복사합니다. 코드스페이스 안에서 새 터미널을 `zsh`로 연 후 `curl` 명렁어를 통해 실행시키세요.
@@ -133,10 +133,88 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
 1. 배포가 끝난 후 애저 포털에서 애저 정적 웹 앱 인스턴스를 찾아 실행시켜 제대로 배포가 되었는지 확인합니다.
 
+1. 실행이 다 끝났다면 아래 명령어를 통해 리소스를 삭제합니다.
+
+    ```bash
+    # 리소스 삭제
+    azd down --force
+
+    # APIM 완전 삭제
+    pwsh ./infra/Purge-ApiManagement.ps1
+
+    # Cognitive 서비스 완전 삭제
+    pwsh ./infra/Purge-CognitiveService.ps1
+    ```
+
 ### 퀵스타트 2 &ndash; 애저 Terraform 이용
 
-TBD
+본 과정은 이전 퀵스타트 1에서 적어도 `azd up` 까지를 완료하였다고 가정하고 진행합니다.
+따라서 포크한 저장소를 그대로 사용합니다.
 
+1. Terraform - IaC 코드 구현: AKS & ACR
+
+[Session02 Code - Sheet](workshop/session02.md)를 참고하여 Terraform 코드를 잘 정의합니다.
+
+1. 다음 과정을 통해 정의한 인프라에 대해 Terraform 배포를 할 수가 있습니다.
+
+  - Terraform 상태 관리를 위해 필요한 내용들을 환경 변수로 가져옵니다.
+    [state.azcli](https://github.com/Azure-Samples/gh-codespaces-copilot-in-a-day-ko/blob/session02-infra/terraform/state/state.azcli) 내용을 실행합니다.
+  - `saName` 값을 `terraform/infra-k8s/main.tf` 내 `storage_account_name` 값으로 변경 적용을 합니다.
+  - Terraform 초기화, 실행 계획 만들기 및 실행 계획 적용을 합니다.
+    ```bash
+    cd terraform/infra-k8s
+
+    # Terraform 초기화
+    terraform init -upgrade
+
+    # Terraform 실행 계획 만들기
+    terraform plan -out main.tfplan
+
+    # Terraform 실행 계획 적용
+    terraform apply main.tfplan
+    ```
+1. Spring Boot API: 컨테이너화를 위한 코드 추가
+
+  - [Session02 Code - Sheet](workshop/session02.md)을 통해 컨테이너화를 위한 Dockerfile 및 pom.xml을 참고합니다.
+  - 이 때, `application-dev.properties` 파일에 AOAI_API_ENDPOINT와 AOAI_API_KEY 설정을 추가로 해야 함을 잊지 마세요.
+
+1. Sprint Boot API: 컨테이너화 & ACR 업로드
+    ```bash
+    cd api
+
+    # 컨테이너화할 jar 파일 생성
+    mvn clean package spring-boot:repackage
+
+    # 위 생성한 jar 파일에 대한 컨테이너 패키징 & ACR 업로드
+    mvn package -PbuildAcr -DskipTests -DRESOURCE_GROUP=${RESOURCE_GROUP} -DACR_NAME=${ACR_NAME}
+    ```
+
+1. AKS 환경에 서비스로 올리기
+    ```bash
+    # AKS 설정을 가져오기
+    az aks get-credentials --resource-group=${RESOURCE_GROUP} --name=${AKS_NAME}
+
+    # AKS에 올리고 8080 포트를 노출
+    kubectl run api --image=${ACR_URI}/api:0.0.1-SNAPSHOT
+    kubectl expose pod api --type=LoadBalancer --port=8080 --target-port=8080
+
+    # 잠시 뒤 IP 주소 확인
+    kubectl get services -o=jsonpath='{.items[*].status.loadBalancer.ingress[0].ip}'
+    ```
+1. APIM 설정 변경을 통한 최종 확인
+
+1. 실행이 다 끝났다면 아래 명령어를 통해 리소스를 삭제합니다.
+    ```bash
+    # AKS에 등록한 Services 및 Pod 제거
+    kubectl delete services api
+    kubectl delete pod api
+
+    # 리소스 제거를 위한 Terraform 실행 계획 만들기
+    terraform plan -destroy -out main.destroy.tfplan
+
+    # Terraform 리소스 제거 실행 계획 적용
+    terraform apply main.destroy.tfplan
+    ```
 
 ### 퀵스타트 3 &ndash; 파워 앱 이용
 

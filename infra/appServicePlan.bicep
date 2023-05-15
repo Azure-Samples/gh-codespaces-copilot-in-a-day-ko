@@ -2,22 +2,12 @@ param name string
 param location string = resourceGroup().location
 
 var hostingPlan = {
-  name: 'asplan-${name}'
-  location: location
+    name: name
+    location: location
 }
 
-resource asplan 'Microsoft.Web/serverfarms@2022-03-01' = {
-  name: hostingPlan.name
-  location: hostingPlan.location
-  kind: 'linux'
-  sku: {
-    name: 'S1'
-    tier: 'Standard'
-  }
-  properties: {
-    reserved: true
-  }
-}
+// ⬇️ copilot demo ⬇️
+// 1. Define serverfarm resource with hosting plan variable(name, location, sku(name, tier), properties)
+// 2. Output id and name of the hosting plan
 
-output id string = asplan.id
-output name string = asplan.name
+// ⬆️ copilot demo ⬆️
