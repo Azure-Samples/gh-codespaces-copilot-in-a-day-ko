@@ -166,12 +166,31 @@ return 상단에 `messages.map` 함수의 형태/결과 등을 정의합니다.
 ![POST /api/messages 구성](../images/api02.png) -->
 
 * `try` `catch` 문으로 Azure OpenAI API 호출
+
+  ```java
+  //Make try catch block for handling exception.
+  //Make ResponseEntity instance & call postForEntity method with requestUrl, entity, String.class
+  ```
+
 * `response` json에서 `content` 가져오기
+    ```java
+    //Define jsonBody as response body
+    //parse jsonBody
+    //Define JsonNode instance & call readTree
+    //Initialize reply value
+    ```
 * Error message 정의
+  ```java
+    //Print exception with System.out.println
+    //Set reply value with error message.
+  ```
 
 ![POST /api/messages 구성](../images/api03.png)
 
 * `return` 문으로 `response` 리턴
+```java
+    //Make MessageResponse instance & set reply value
+```
 
 ![POST /api/messages 구성](../images/api04.png)
 
