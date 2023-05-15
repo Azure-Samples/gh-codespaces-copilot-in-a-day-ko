@@ -39,7 +39,30 @@
 
 ### 4. 모듈 정의: `modules/acr`
 
+* `main.tf`
+  * required_providers: `azurecaf`
+  * `resource "azurecaf_name" "acr"` with `suffixes` as `[var.environment]`
+  * `resource "azurerm_container_registry" "acr"` - "sku" as `Standard`
+
+* `outputs.tf`
+  * `acr_id`, `registry_name`, `acr_fqdn`, `admin_username`, `admin_username`
+
+* `variables.tf`
+  * `resource_group`, `application_name`, `environment`, `location`
+
 ### 5. 모듈 정의: `modules/aks`
+
+* `main.tf`
+  * required_providers: `azurecaf`
+  * `resource "azurecaf_name" "aks_cluster"` with `suffixes` as `[var.environment]`
+  * `resource "azurerm_kubernetes_cluster" "aks"` - "default_node_pool"'s `vmsize` as `Standard_D2_v2` and "identity" as `SystemAssigned`
+  * `resource "azurerm_role_assignment" "acrpull_role"` - "scope" as `var.acr_id`, "role_definition_name" as `"AcrPull"`, "principal_id" as `azurerm_kubernetes_cluster.aks.kubelet_identity.0.object_id` <- Type as comment like "grant permission to aks to pull images from acr"
+
+* `outputs.tf`
+  * `cluster_name`, `cluster_fqdn`, `kube_config`, `kube_config_raw`
+
+* `variables.tf`
+  * `agent_count` as default 3, `resource_group`, `application_name`, `environment`, `location`, `acr_id`, `dns_prefix`
 
 
 ## Sprint Boot API: 컨테이너화를 위한 코드
