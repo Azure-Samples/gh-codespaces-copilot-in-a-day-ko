@@ -250,7 +250,7 @@
 > ```
 
 ## 백엔드
-* 파일 위치: `api/src/main/java/roadshow/demo/api/controller/Message.Controller`
+* 파일 위치: `api/src/main/java/roadshow/demo/api/controller/Message.Controller` **117번째 줄**부터
 
 <!-- ### 1. `OpenAPI` 구성
 

@@ -30,7 +30,6 @@ resource aoai 'Microsoft.CognitiveServices/accounts@2022-12-01' = {
 }
 
 // ⬇️ copilot demo ⬇️
-//Define openaiDeployment resource(deployments)
 
 
 // ⬆️ copilot demo ⬆️

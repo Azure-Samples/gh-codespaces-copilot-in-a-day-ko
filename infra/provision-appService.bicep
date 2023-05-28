@@ -25,7 +25,6 @@ module appins './applicationInsights.bicep' = {
 }
 
 // ⬇️ copilot demo ⬇️
-// add app service plan module
 
 // ⬆️ copilot demo ⬆️
 

@@ -115,12 +115,6 @@ public class MessageController {
         String reply;
 
         // ⬇️ copilot demo ⬇️
-        //1. Make post request with entity & requestUrl.
-        //2. Get response body & parse it as JsonNode.
-        //3. Get reply message from JsonNode.
-        //4. Make catch exception to handle error.
-        //5. Make MessageResponse instance & set reply message to it.
-
 
         // ⬆️ copilot demo ⬆️
         //Uncomment below line for initial local test for OpenAPI Swagger UI.
