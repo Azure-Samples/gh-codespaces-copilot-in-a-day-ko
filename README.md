@@ -110,12 +110,12 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 ### 퀵스타트 1 &ndash; 애저 Bicep 이용
 
 1. 이 리포지토리를 자신의 계정으로 포크합니다.
-2. [workshop/session1.md](/workspaces/gh-codespaces-copilot-in-a-day-ko/workshop/session01.md)을 참고하여 Copilot과 함께 비어 있는 코드들을 채워 넣어 줍니다.
+2. [workshop/session1.md](workshop/session01.md)을 참고하여 Copilot과 함께 비어 있는 코드들을 채워 넣어 줍니다.
    * **인프라** - App Service Plan, OpenAI 바이셉 파일 작성
    * **프론트엔드** - 헤더, form 데이터에서 메세지 가져오기, 답변 추가하기
    * **백엔드** - POST 로직 구현
 3. Local에서 테스트를 하기 위해서는 퀵스타트 0 내용을 참고합니다.
-3. 아래 명령어를 차례대로 실행시켜 애저에 리소스를 프로비저닝합니다.
+4. 아래 명령어를 차례대로 실행시켜 애저에 리소스를 프로비저닝합니다.
 
    ```bash
    azd auth login --use-device-code=false
@@ -126,7 +126,7 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
    > GitHub 코드스페이스 안에서 `azd auth login --use-device-code=false` 명령어를 사용해서 로그인하는 경우, 최초 404 에러가 날 수 있습니다. 이 때 `azd auth login --use-device-code=false` 명령어를 친 터미널을 종료하지 말고, 주소창의 `http://localhost:...` 링크를 전체 복사합니다. 코드스페이스 안에서 새 터미널을 `zsh`로 연 후 `curl` 명렁어를 통해 실행시키세요.
 
-4. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다.
+5. 아래 명령어를 차례로 실행시켜 애플리케이션을 배포합니다.
 
    ```bash
    gh auth login
@@ -136,9 +136,9 @@ Java 기반의 Spring 백엔드와 React 기반의 프론트엔드 앱을 [GitHu
 
    > 만약 `gh auth login` 명령어를 실행시키는 도중 에러가 발생하면 `GITHUB_TOKEN=` 명령어를 실행시켜 토큰을 초기화한 후 다시 실행시킵니다.
 
-5. 배포가 끝난 후 애저 포털에서 애저 정적 웹 앱 인스턴스를 찾아 실행시켜 제대로 배포가 되었는지 확인합니다.
+6. 배포가 끝난 후 애저 포털에서 애저 정적 웹 앱 인스턴스를 찾아 실행시켜 제대로 배포가 되었는지 확인합니다.
 
-6. 실행이 다 끝났다면 아래 명령어를 통해 리소스를 삭제합니다.
+7. 실행이 다 끝났다면 아래 명령어를 통해 리소스를 삭제합니다.
 
     ```bash
     # 리소스 삭제

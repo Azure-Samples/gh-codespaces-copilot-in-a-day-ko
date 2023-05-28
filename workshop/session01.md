@@ -68,60 +68,92 @@
   > Answer sheet
   > ```bicep
   >module asplan './appServicePlan.bicep' = {
-  > name: 'AppServicePlan_AppService'
-  > params: {
-  >     name: '${name}-api'
-  >     location: location
-  > }
+  >  name: 'AppServicePlan_AppService'
+  >  params: {
+  >    name: '${name}-api'
+  >    location: location
+  >  }
   >}
   > ```
 
 ### 3. `openAI.bicep`
 
-<!-- * `aoai` 리소스 정의
-
-![aoai 리소스 정의](../images/openai02.png)
-
-> `accounts` 버전을 확인합니다. -->
-
 * `openaiDeployment` 리소스 정의
 
-  ```
+  ```bicep
     //Define deployments resource named 'openaiDeployment'
     //with name, properties(model, scaleSettings)
+    //which goes through the 'aoaiModels' array
 
     //model with format, name, version
   ```
 
-![openaiDeployment 리소스 정의](../images/openai03.png)
+    ![openaiDeployment 리소스 정의](../images/openai01.png)
 
-> `properties` 사이에 주석을 추가해서 `model` 과 `scaleSettings` 파라미터를 추가합니다.
+  > `properties` 사이에 주석을 추가해서 `model` 과 `scaleSettings` 파라미터를 추가합니다.
+
+  > Answer sheet
+  > ```bicep
+  >resource openaiDeployment 'Microsoft.CognitiveServices/accounts/deployments@2022-12-01' = [for model in openai.models: {
+  >  name: '${aoai.name}/${model.deploymentName}'
+  >  properties: {
+  >    model: {
+  >      format: 'OpenAI'
+  >      name: model.name
+  >      version: model.version
+  >    }
+  >    scaleSettings: {
+  >      scaleType: 'Standard'
+  >    }
+  >  }
+  >}]
+  >```
 
 ### 4. `provision-cognitiveServices.bicep`
 
 * `aoai` 모듈 정의
 
-  ```
+  ```bicep
     // Add openAI bicep as a module named aoai
   ```
 
-![aoai 모듈 정의](../images/provision-cog01.png)
+    위와 비슷한 내용이므로 스크린샷 생략.
+
+    > Answer sheet
+    >```bicep
+    > module aoai './openAI.bicep' = {
+    >  name: 'OpenAI'
+    >  params: {
+    >    name: name
+    >    location: 'eastus'
+    >    aoaiModels: aoaiModels
+    >  }
+    >}
+    >```
 
 * `output` 정의
 
-  ```
+  ```bicep
     // output for aoai API key, endpoint, version, deploymentID
 
     // Get apiVersion & apiDeploymentName from aoaiModels array[0]
   ```
+    
+    마찬가지 이유로 스크린샷 생략.
 
-![output 정의](../images/provision-cog02.png)
+    > Answer sheet
+    > ```bicep
+    >output aoaiApiKey string = aoai.outputs.apiKey
+    >output aoaiApiEndpoint string = aoai.outputs.endpoint
+    >output aoaiApiVersion string = aoaiModels[0].apiVersion
+    >output aoaiApiDeploymentId string = aoaiModels[0].deploymentName
+    >```
 
-## 프론트 엔드 - `web` 폴더
+## 프론트 엔드 - `web/src/App.js`
 
 ### 1. 헤더 추가
 
-return 상단에 원하는 헤더 내용을 담아 `msger head title` 을 추가합니다.
+**57번째 줄** return 상단에 원하는 헤더 내용을 담아 `msger head title` 을 추가합니다.
 
 ``` javascript
 // Add msger head title with title name: askmeazure.openai
@@ -129,13 +161,20 @@ return 상단에 원하는 헤더 내용을 담아 `msger head title` 을 추가
 
 ![헤더 추가](../images/web01.png)
 
+> Answer sheet
+>
+> ```javascript
+> <div className="msger-header-title">
+>        <i className="fas fa-comment-alt" /> askmeazure.openai🤖
+> </div>
+> ```
 ### 2. `const[messages, setMessages] = useState([])` 추가
 
 `messages` 를 정의하고, appendMessage 함수를 통해 azure bot의 인사말을 추가합니다.
 
 ``` javascript
-//Define messages const to set the first message from azure bot
-//Call appendMessage function to render the first message from the azure bot
+// Define messages const to set the first message from azure bot
+// Call appendMessage function to render the first message from the azure bot
 ```
 
 ![useState 추가](../images/web02.png)
@@ -144,15 +183,29 @@ return 상단에 원하는 헤더 내용을 담아 `msger head title` 을 추가
 
 ![인사말 결과](../images/greetings.png)
 
+> Answer sheet
+> ```javascript
+>  const [messages, setMessages] = useState([appendMessage(BOT_NAME, BOT_IMG, "left", "안녕하세요, 애저봇입니다. 만나서 반가워요! 오늘은 뭘 도와드릴까요?")]);
+> ```
+
 ### 3. `form` 데이터에서 message 가져오기
 
 ```javascript
-//Get target value and define it as form.
-//Define msgerInput as a FormData
-//Get the value from msger-input element
+// Get target value and define it as form.
+// Define msgerInput as a FormData
+// Get the value from msger-input element
+//If there is no message, return
 ```
 
 ![form 데이터에서 message 가져오기](../images/web03.png)
+
+> Answer sheet
+> ```javascript
+> const form = e.target;
+> const msgerInput = new FormData(form);
+> const msgText = msgerInput.get("msger-input");
+> if (!msgText) return; 
+> ```
 
 ### 4. `appendMessage`로 질문과 로딩 답변 추가하기
 
@@ -171,9 +224,12 @@ return 상단에 원하는 헤더 내용을 담아 `msger head title` 을 추가
 
 ![appendMessage로 질문과 로딩 답변 추가하기](../images/web04.png)
 
+> Answer sheet
+> 
+
 ### 5. `map`으로 `messages` 리턴하기
 
-return 상단에 `messages.map` 함수의 형태/결과 등을 정의합니다.
+1번에서 헤더를 추가하기 위해 주석을 추가 했던 곳으로 돌아가서  `messages.map` 함수의 형태/결과 등을 정의합니다.
 
 ```javascript
 // Add message.map function to render messages.
@@ -184,7 +240,17 @@ return 상단에 `messages.map` 함수의 형태/결과 등을 정의합니다.
 
 ![map으로 messages 리턴하기](../images/web06.png)
 
-## 백엔드 - `api` 폴더
+> Answer sheet
+> ```javascript
+> {messages.map((message, index) => (
+>    <React.Fragment key={index}>
+>       {message}
+>    </React.Fragment>
+> ))}
+> ```
+
+## 백엔드
+* 파일 위치: `api/src/main/java/roadshow/demo/api/controller/Message.Controller`
 
 <!-- ### 1. `OpenAPI` 구성
 
@@ -210,37 +276,51 @@ return 상단에 `messages.map` 함수의 형태/결과 등을 정의합니다.
 ![POST /api/messages 구성](../images/api02.png) -->
 
 * `try` `catch` 문으로 Azure OpenAI API 호출
-
-  ```java
-  //Make try catch block for handling exception.
-  //Make ResponseEntity instance & call postForEntity method with requestUrl, entity, String.class
-  ```
-
 * `response` json에서 `content` 가져오기
 
     ```java
-    //Define jsonBody as response body
-    //parse jsonBody
-    //Define JsonNode instance & call readTree
-    //Initialize reply value
+    // Make try catch for restTemplate.postForEntity method.
+    // Define jsonBody as response body
+    // parse jsonBody
+    // Define JsonNode instance & call readTree
+    // Initialize reply value
     ```
+
+    ![try/catch문](../images/api02.png)
 
 * Error message 정의
 
   ```java
-    //Print exception with System.out.println
-    //Set reply value with error message.
+  // Print exception with System.out.println
+  // Set reply value with error message.
   ```
-
-![POST /api/messages 구성](../images/api03.png)
 
 * `return` 문으로 `response` 리턴
 
-```java
-    //Make MessageResponse instance & set reply value
-```
+  ```java
+  //Make MessageResponse instance & set reply value
+  ```
 
-![POST /api/messages 구성](../images/api04.png)
+> Answer sheet
+> ```java
+> try {
+>     response = restTemplate.postForEntity(requestUrl, entity, String.class);
+>     String jsonResponse = response.getBody();
+>
+>     // Parse the JSON string using Jackson
+>     ObjectMapper objectMapper = new ObjectMapper();
+>     JsonNode rootNode = objectMapper.readTree(jsonResponse);
+>     reply = rootNode.get("choices").get(0).get("message").get("content").asText();
+>
+> } catch(Exception e) {
+>     System.out.println("Exception: " + e);
+>     reply = "죄송해요, 지금은 답을 드릴 수 없어요. 서버에 문제가 있는 것 같아요. 다시 시도해주세요. 😥";
+> }
+>   
+> MessageResponse messageResponse = new MessageResponse();
+> messageResponse.setReply(reply);
+> return messageResponse;
+> ```
 
 ## 배포 시 주의 사항
 
