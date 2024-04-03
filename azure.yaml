@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
 name: gh-codespaces-copilot-in-a-day-ko
-
+metadata:
+  template: gh-codespaces-copilot-in-a-day-ko@0.0.1-beta
 infra:
   provider: "bicep"
   path: "infra"
